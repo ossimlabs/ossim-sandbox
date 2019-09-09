@@ -19,9 +19,9 @@ node ("${BUILD_NODE}"){
    finally
    {
       stage("Clean Workspace")
-              {
-                 if ("${CLEAN_WORKSPACE}" == "true")
-                    step([$class: 'WsCleanup'])
-              }
+      {
+         if ("${CLEAN_WORKSPACE}" == "true")
+            step([$class: 'WsCleanup'])
+      }
    }
 }
