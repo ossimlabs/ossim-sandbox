@@ -12,7 +12,7 @@ if [ "${ROOT_DIR}" == "" ] ; then
    ROOT_DIR=`pwd -P`
    popd > /dev/null
 fi
-docker run -it --net=host --ipc host --env="DISPLAY" --rm -w /home/ossim/ossimlabs --mount type=bind,source=/data,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/ossim/ossimlabs $*
+docker run --net=host --ipc host --env="DISPLAY" --rm -w /home/ossim/ossimlabs --mount type=bind,source=/data,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/ossim/ossimlabs $*
 if [ $? -ne 0 ]; then echo "ERROR: Failed execution of $*" ; exit 1 ; fi
 exit 0
 
