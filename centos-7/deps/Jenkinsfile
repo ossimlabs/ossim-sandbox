@@ -19,6 +19,10 @@ node ("${BUILD_NODE}"){
                   filter: "common-variables.groovy",
                   flatten: true])
          }
+         step ([$class: "CopyArtifact",
+            projectName: "ossim-sandbox-docker-multibranch/${OSSIM_GIT_BRANCH}",
+            filter: "*.tgz",
+            flatten: true])
          load "common-variables.groovy"
       }
       stage("Checkout"){
@@ -35,11 +39,11 @@ node ("${BUILD_NODE}"){
 
       }
       stage("Create Build Image"){
-         sh "${env.WORKSPACE}/ossim-sandbox/build-ossim-dependencies.sh centos-7"
+         //sh "${env.WORKSPACE}/ossim-sandbox/build-ossim-dependencies.sh centos-7"
       }
       stage("Archive")
       {
-         archiveArtifacts "ossim-deps-*.tgz"
+         //archiveArtifacts "ossim-deps-*.tgz"
       }
    }
    finally
