@@ -1,0 +1,23 @@
+node ("${BUILD_NODE}"){
+   try{
+      stage("Checkout"){
+         dir("ossim-sandbox"){
+            git branch: "${OSSIM_GIT_BRANCH}",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim-sandbox.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
+
+      }
+      stage("Create Build Image"){
+         sh "${env.WORKSPACE}/ossim-sandbox/create-build-image.sh"
+      }
+   }
+   finally
+   {
+      stage("Clean Workspace")
+              {
+                 if ("${CLEAN_WORKSPACE}" == "true")
+                    step([$class: 'WsCleanup'])
+              }
+   }
+}
