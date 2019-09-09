@@ -16,4 +16,6 @@ RUN yum -y install epel-release && yum clean all&& \
    useradd -u 1001 -r -g 0 --create-home -d $HOME -s /sbin/nologin -c 'Default Build User' ossim && \
    rm -rf /usr/local/* && \
    chown -R 1001:0 /usr/local
+   chmod -R 777 /usr/local
+   chmod  777 /home/ossim
 USER 1001
