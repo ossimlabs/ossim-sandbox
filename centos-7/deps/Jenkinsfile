@@ -39,12 +39,12 @@ node ("${BUILD_NODE}"){
 
       }
       stage("Load Build Image"){
-         sh "docker load -i ${env.WORKSPACE}/ossim-build*.tgz"
-         //sh "${env.WORKSPACE}/ossim-sandbox/build-ossim-dependencies.sh centos-7"
+         sh "docker load -i ${env.WORKSPACE}/ossim-build-centos-7.tgz"
+         sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-centos-7 ossim-sandbox/build-ossim-dependencies.sh centos-7"
       }
       stage("Archive")
       {
-         //archiveArtifacts "ossim-deps-*.tgz"
+         archiveArtifacts "ossim-deps-*.tgz"
       }
    }
    finally
