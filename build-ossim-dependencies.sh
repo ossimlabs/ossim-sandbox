@@ -267,7 +267,7 @@ if [ -d $OSSIM_DEV_HOME/$GEOS ] ; then
    cd $OSSIM_DEV_HOME/$GEOS
    mkdir -p build
    cd build
-   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+   cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
    make $MAKE_JOBS VERBOSE=1 install
    if [ $? -ne 0 ]; then echo "geos make install error: $error" ; exit 1 ; fi
 else
@@ -287,7 +287,7 @@ if [ -d $OSSIM_DEV_HOME/$GEOTIFF ] ; then
    cd $OSSIM_DEV_HOME/$GEOTIFF
    mkdir -p build
    cd build
-   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+   cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
    make $MAKE_JOBS VERBOSE=1 install
    if [ $? -ne 0 ]; then echo "geotff make install error: $error" ; exit 1 ; fi
 else
