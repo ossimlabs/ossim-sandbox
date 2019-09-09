@@ -38,7 +38,8 @@ node ("${BUILD_NODE}"){
          }
 
       }
-      stage("Create Build Image"){
+      stage("Load Build Image"){
+         sh "docker load -f ${env.WORKSPACE}/ossim-build*.tgz"
          //sh "${env.WORKSPACE}/ossim-sandbox/build-ossim-dependencies.sh centos-7"
       }
       stage("Archive")
