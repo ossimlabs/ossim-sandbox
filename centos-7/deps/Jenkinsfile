@@ -20,14 +20,14 @@ node ("${BUILD_NODE}"){
                   flatten: true])
          }
          step ([$class: "CopyArtifact",
-            projectName: "ossim-sandbox-docker-multibranch/${OSSIM_GIT_BRANCH}",
+            projectName: "ossim-sandbox-docker-multibranch/${BRANCH_NAME}",
             filter: "*.tgz",
             flatten: true])
          load "common-variables.groovy"
       }
       stage("Checkout"){
           dir("${env.WORKSPACE}/ossim-private"){
-            git branch: "${OSSIM_GIT_BRANCH}",
+            git branch: "${BRANCH_NAME}",
             url: "${GIT_PRIVATE_SERVER_URL}/ossim-private.git",
             credentialsId: "${CREDENTIALS_ID}"
           }
