@@ -5,7 +5,9 @@ popd >/dev/null
 
 source $CREATE_BUILD_IMAGE_SCRIPT_DIR/common.sh $*
 
+echo docker build -t ossim-build-$TYPE -f $CREATE_BUILD_IMAGE_SCRIPT_DIR/$TYPE/docker/Dockerfile $CREATE_BUILD_IMAGE_SCRIPT_DIR/$TYPE/docker
 docker build -t ossim-build-$TYPE -f $CREATE_BUILD_IMAGE_SCRIPT_DIR/$TYPE/docker/Dockerfile $CREATE_BUILD_IMAGE_SCRIPT_DIR/$TYPE/docker
 if [ $? -ne 0 ]; then echo "ERROR: Unable to create build image" ; exit 1 ; fi
+echo docker save ossim-build-$TYPE | gzip -c > $OSSIM_DEV_HOME/save ossim-build-$TYPE.tgz
 docker save ossim-build-$TYPE | gzip -c > $OSSIM_DEV_HOME/save ossim-build-$TYPE.tgz
 exit 0
