@@ -3,7 +3,7 @@ pushd `dirname ${BASH_SOURCE[0]}` >/dev/null
 BUILD_OSSIM_DEPS_DIR=`pwd -P`
 popd >/dev/null
 
-source $BUILD_OSSIM_DEPS_DIR/common.sh
+source $BUILD_OSSIM_DEPS_DIR/common.sh $1
 
 #
 # Setup szip
@@ -371,7 +371,7 @@ fi
 
 echo "Packaging dependencies........"
 cd /usr/local
-tar cvfz $OSSIM_DEV_HOME/ossim-deps-$OS_ID-$OS_ID_VERSION-all.tgz *
-tar cvfz $OSSIM_DEV_HOME/ossim-deps-$OS_ID-$OS_ID_VERSION-runtime.tgz bin lib lib64 share kakadu/lib kakadu/bin
-tar cvfz $OSSIM_DEV_HOME/ossim-deps-$OS_ID-$OS_ID_VERSION-dev.tgz include lib lib64 kakadu/lib kakadu/managed
+tar cvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz *
+tar cvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-runtime.tgz bin lib lib64 share kakadu/lib kakadu/bin
+tar cvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-dev.tgz include lib lib64 kakadu/lib kakadu/managed
 exit 0

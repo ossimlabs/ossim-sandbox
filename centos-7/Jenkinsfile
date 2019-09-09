@@ -9,7 +9,7 @@ node ("${BUILD_NODE}"){
 
       }
       stage("Create Build Image"){
-         sh "${env.WORKSPACE}/ossim-sandbox/create-build-image.sh"
+         sh "${env.WORKSPACE}/ossim-sandbox/create-build-image.sh centos-7"
       }
       stage("Archive")
       {
