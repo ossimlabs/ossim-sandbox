@@ -38,6 +38,14 @@ if [ "$SZIP" == "" ] ; then
   export SZIP="szip-2.1.1"
 fi
 
+if [ "$GEOS" == "" ] ; then
+  export GEOS="geos-3.7.2" 
+fi
+
+if [ "$GEOTIFF" == "" ] ; then
+  export GEOTIFF="libgeotiff-1.5.1" 
+fi
+
 if [ "$FFMPEG" == "" ] ; then
   export FFMPEG="ffmpeg-4.2"
 fi

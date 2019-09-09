@@ -2,10 +2,9 @@ FROM library/centos:7
 ENV HOME=/home/ossim \
    JAVA_HOME=/usr/lib/jvm/java
 RUN yum -y install epel-release && yum clean all&& \
-   yum -y install git wget curl gcc tcsh\
-   geos-devel gcc-c++ libtool ant\
+   yum -y install git wget curl gcc tcsh gcc-c++ libtool ant \
    openssl-devel libjpeg-devel curl-devel nasm \
-   libgeotiff-devel libtiff-devel sqlite-devel \
+   libtiff-devel sqlite-devel \
    libjpeg-devel libpng-devel swig \
    giflib-devel cmake numactl-devel cmake3 make jsoncpp-devel freetype-devel \
    lame-devel libvorbis-devel opus opus-devel libogg-devel librsvg2-devel libtheora-devel \
