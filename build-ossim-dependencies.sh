@@ -5,9 +5,6 @@ popd >/dev/null
 
 source $BUILD_OSSIM_DEPS_DIR/common.sh $1
 
-echo "alkdfjalkdjfalkdjsf" > $OSSIM_DEV_HOME/f.txt
-ls -l $OSSIM_DEV_HOME/f.txt
-exit 0
 #
 # Setup szip
 #
