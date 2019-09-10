@@ -417,7 +417,10 @@ if [ -d $OSSIM_DEV_HOME/$OPENSCENEGRAPH ] ; then
    cd build
    CFLAGS="-pthread"
    CXXFLAGS="-pthread -std=c++11"
-   cmake \
+   cmake3 \
+      -G "Unix Makefiles" \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr/local \
       -DBUILD_OSG_EXAMPLES=OFF \
       -DBUILD_DOCUMENTATION=OFF \
       .. -Wno-dev
