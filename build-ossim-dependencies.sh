@@ -308,7 +308,7 @@ fi
 
 if [ -d $OSSIM_DEV_HOME/$GDAL ] ; then
    cd $OSSIM_DEV_HOME/$GDAL
-   ./configure --with-kakadu=$OSSIM_DEV_HOME/ossim-private/kakadu/$KAKADU_VERSION --with-jpeg=internal --prefix=/usr/local --enable-shared --disable-static 
+   ./configure --with-kakadu=$OSSIM_DEV_HOME/ossim-private/kakadu/$KAKADU_VERSION --with-proj=/usr/local --with-jpeg=internal --prefix=/usr/local --enable-shared --disable-static 
    make $MAKE_JOBS install
    if [ $? -ne 0 ]; then echo "gdal make install error: $error" ; exit 1 ; fi
 else
