@@ -64,6 +64,8 @@ if [ -d $OSSIM_DEV_HOME/ossim-private ] ; then
    mkdir -p /usr/local/kakadu/managed/all_includes
    mkdir -p /usr/local/kakadu/lib
    mkdir -p /usr/local/kakadu/bin
+   mkdir -p /usr/local/kakadu/apps/make
+   cp $OSSIM_DEV_HOME/ossim-private/kakadu/${KAKADU_VERSION}/apps/make/*.o /usr/local/kakadu/apps/make
    cp -R $OSSIM_DEV_HOME/ossim-private/kakadu/${KAKADU_VERSION}/managed/all_includes/* /usr/local/kakadu/managed/all_includes
    cp -R $OSSIM_DEV_HOME/ossim-private/kakadu/${KAKADU_VERSION}/lib/Linux-x86-64-gcc/* /usr/local/kakadu/lib/ 
    cp -R $OSSIM_DEV_HOME/ossim-private/kakadu/${KAKADU_VERSION}/bin/Linux-x86-64-gcc/* /usr/local/kakadu/bin/ 
@@ -173,7 +175,12 @@ fi
 if [ -d $OSSIM_DEV_HOME/$JPEG12_TURBO ] ; then
    cd $OSSIM_DEV_HOME/$JPEG12_TURBO
    autoreconf -fiv
-   ./configure --prefix=/usr/local --disable-static --with-12bit --with-jpeg8
+   ./configure --prefix=/usr/local/jpeg12 --disable-static --with-12bit --with-jpeg8
+   mkdir /usr/local/include/jpeg12
+   mv /usr/local/jpeg12/include/* /usr/local/include/jpeg12
+   mv /usr/local/jpeg12/lib/* /usr/local/lib/
+   rm -rf /usr/local/include/jpeg12/include
+   rm -rf /usr/local/include/jpeg12/lib
    make $MAKE_JOBS install
    if [ $? -ne 0 ]; then echo "jpeg12 turbo make install: $error" ; exit 1 ; fi
 else
@@ -415,8 +422,6 @@ if [ -d $OSSIM_DEV_HOME/$OPENSCENEGRAPH ] ; then
    cd $OSSIM_DEV_HOME/$OPENSCENEGRAPH
    # we will move the header out of the way temporarily so it will build
    #
-   echo mv /usr/local/include/jpeglib.h /usr/local/include/jpeglib.h.bak
-   mv /usr/local/include/jpeglib.h /usr/local/include/jpeglib.h.bak
    mkdir -p build
    cd build
    cmake3 \
@@ -428,8 +433,6 @@ if [ -d $OSSIM_DEV_HOME/$OPENSCENEGRAPH ] ; then
       -DBUILD_OSG_EXAMPLES=OFF \
       -DBUILD_DOCUMENTATION=OFF \
       .. -Wno-dev
-   echo mv /usr/local/include/jpeglib.h.bak /usr/local/include/jpeglib.h
-   mv /usr/local/include/jpeglib.h.bak /usr/local/include/jpeglib.h
    make $MAKE_JOBS VERBOSE=1 install
    if [ $? -ne 0 ] ; then echo "OpenSceneGraph make install error: $error" ; exit 1 ; fi
 else

@@ -9,9 +9,6 @@ popd >/dev/null
 
 TYPE=$1
 
-if [ "$TYPE" == "" ] ; then
-  TYPE="centos-7"
-fi
 
 pushd $COMMON_SCRIPT_DIR/.. > /dev/null
 export OSSIM_DEV_HOME=`pwd -P`
@@ -90,4 +87,8 @@ if [ -f /etc/os-release ] ; then
    source /etc/os-release
    export OS_ID=$ID
    export OS_ID_VERSION=$VERSION_ID
+fi
+
+if [ "$TYPE" == "" ] ; then
+  TYPE="$OS_ID-$OS_ID_VERSION"
 fi
