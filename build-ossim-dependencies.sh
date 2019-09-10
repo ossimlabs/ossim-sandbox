@@ -6,6 +6,27 @@ popd >/dev/null
 source $BUILD_OSSIM_DEPS_DIR/common.sh $1
 
 #
+# Print out all version we are building
+# 
+echo "MAKE_JOBS        = $MAKE_JOBS"
+echo "KAKADU_VERSION   = $KAKADU_VERSION"
+echo "X264             = $X264"
+echo "SZIP             = $SZIP"
+echo "X265             = $X265"
+echo "GEOS             = $GEOS"
+echo "GEOTIFF          = $GEOTIFF"
+echo "FFMPEG           = $FFMPEG"
+echo "JPEG12_TURBO     = $JPEG12_TURBO"
+echo "GPSTK            = $GPSTK"
+echo "AWS_SDK          = $AWS_SDK"
+echo "HDF5             = $HDF5"
+echo "OPENSCENEGRAPH   = $OPENSCENEGRAPH"
+echo "SZIP             = $SZIP"
+echo "PROJ4            = $PROJ4"
+echo "OS_ID            = $OS_ID"
+echo "OS_ID_VERSION    = $OS_ID_VERSION"
+
+#
 # Setup szip
 #
 if [ ! -d $OSSIM_DEV_HOME/$SZIP ] ; then
