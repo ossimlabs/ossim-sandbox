@@ -415,6 +415,7 @@ if [ -d $OSSIM_DEV_HOME/$OPENSCENEGRAPH ] ; then
    cd $OSSIM_DEV_HOME/$OPENSCENEGRAPH
    # we will move the header out of the way temporarily so it will build
    #
+   echo mv /usr/local/include/jpeglib.h /usr/local/include/jpeglib.h.bak
    mv /usr/local/include/jpeglib.h /usr/local/include/jpeglib.h.bak
    mkdir -p build
    cd build
@@ -427,6 +428,7 @@ if [ -d $OSSIM_DEV_HOME/$OPENSCENEGRAPH ] ; then
       -DBUILD_OSG_EXAMPLES=OFF \
       -DBUILD_DOCUMENTATION=OFF \
       .. -Wno-dev
+   echo mv /usr/local/include/jpeglib.h.bak /usr/local/include/jpeglib.h
    mv /usr/local/include/jpeglib.h.bak /usr/local/include/jpeglib.h
    make $MAKE_JOBS VERBOSE=1 install
    if [ $? -ne 0 ] ; then echo "OpenSceneGraph make install error: $error" ; exit 1 ; fi
