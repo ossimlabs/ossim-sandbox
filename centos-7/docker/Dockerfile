@@ -4,8 +4,7 @@ ENV HOME=/home/ossim \
 RUN yum -y install epel-release && yum clean all&& \
    yum -y install git wget curl gcc tcsh gcc-c++ libtool ant \
    openssl-devel libjpeg-devel curl-devel nasm \
-   libtiff-devel sqlite-devel \
-   libjpeg-devel libpng-devel swig \
+   libtiff-devel sqlite-devel libpng-devel swig \
    giflib-devel cmake numactl-devel cmake3 make jsoncpp-devel freetype-devel \
    lame-devel libvorbis-devel opus opus-devel libogg-devel librsvg2-devel libtheora-devel \
    libmodplug-devel libass-devel libbluray-devel libvpx-devel libvpx gnutls-devel gnutls openjpeg2-devel \
