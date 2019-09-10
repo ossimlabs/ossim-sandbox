@@ -418,10 +418,10 @@ if [ -d $OSSIM_DEV_HOME/$OPENSCENEGRAPH ] ; then
    mv /usr/local/include/jpeglib.h /usr/local/include/jpeglib.h.bak
    mkdir -p build
    cd build
-   CFLAGS="-pthread"
-   CXXFLAGS="-pthread -std=c++11"
    cmake3 \
       -G "Unix Makefiles" \
+      -DCMAKE_C_FLAGS="-pthread" \
+      -DCMAKE_CXX_FLAGS="-pthread -std=c++11" \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=/usr/local \
       -DBUILD_OSG_EXAMPLES=OFF \
@@ -430,8 +430,6 @@ if [ -d $OSSIM_DEV_HOME/$OPENSCENEGRAPH ] ; then
    mv /usr/local/include/jpeglib.h.bak /usr/local/include/jpeglib.h
    make $MAKE_JOBS VERBOSE=1 install
    if [ $? -ne 0 ] ; then echo "OpenSceneGraph make install error: $error" ; exit 1 ; fi
-   unset CFLAGS
-   unset CXXFLAGS
 else
    echo "Error: $OSSIM_DEV_HOME/$OPENSCENEGRAPH.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
    exit 1
