@@ -19,7 +19,7 @@ export OSSIM_BUILD_DIR=$OSSIM_DEV_HOME/build
 export OSSIM_INSTALL_PREFIX=$OSSIM_DEV_HOME/install
 popd > /dev/null
 
-if [ "MAKE_JOBS" == "" ] ;  then
+if [ "$MAKE_JOBS" == "" ] ;  then
    export MAKE_JOBS="-j4"
 fi
 
