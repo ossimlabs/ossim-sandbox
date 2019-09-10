@@ -399,7 +399,7 @@ if [ -d $OSSIM_DEV_HOME/$OPENSCENEGRAPH ] ; then
    cmake \
       -DBUILD_OSG_EXAMPLES=OFF \
       -DBUILD_DOCUMENTATION=OFF \
-      ../OpenSceneGraph-%{srcvers} -Wno-dev
+      .. -Wno-dev
    make $MAKE_JOBS VERBOSE=1 install
    if [ $? -ne 0 ] ; then echo "OpenSceneGraph make install error: $error" ; exit 1 ; fi
    unset CFLAGS
