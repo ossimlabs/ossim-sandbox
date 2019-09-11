@@ -176,12 +176,12 @@ if [ -d $OSSIM_DEV_HOME/$JPEG12_TURBO ] ; then
    cd $OSSIM_DEV_HOME/$JPEG12_TURBO
    autoreconf -fiv
    ./configure --prefix=/usr/local/jpeg12 --disable-static --with-12bit --with-jpeg8
-   mkdir /usr/local/include/jpeg12
+   make $MAKE_JOBS install
+   mkdir -p /usr/local/include/jpeg12
    mv /usr/local/jpeg12/include/* /usr/local/include/jpeg12
    mv /usr/local/jpeg12/lib/* /usr/local/lib/
    rm -rf /usr/local/include/jpeg12/include
    rm -rf /usr/local/include/jpeg12/lib
-   make $MAKE_JOBS install
    if [ $? -ne 0 ]; then echo "jpeg12 turbo make install: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$JPEG12_TURBO.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -313,10 +313,13 @@ fi
 
 if [ -d $OSSIM_DEV_HOME/$GEOTIFF ] ; then
    cd $OSSIM_DEV_HOME/$GEOTIFF
-   mkdir -p build
-   cd build
-   cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
-   make $MAKE_JOBS VERBOSE=1 install
+   # mkdir -p build
+   # cd build
+
+   # cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+   # make $MAKE_JOBS VERBOSE=1 install
+   ./configure --prefix=/usr/local --enable-shared --disable-static
+   make $MAKE_JOBS install
    if [ $? -ne 0 ]; then echo "geotff make install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$GEOTIFF.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
