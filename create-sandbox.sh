@@ -40,13 +40,19 @@ $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_ARTIFACT_EXTRACT/lib64/libossim-wm
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_ARTIFACT_EXTRACT/lib64/libossim-video.so $SANDBOX_DIR/lib64
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_ARTIFACT_EXTRACT/lib64/ossim/plugins $SANDBOX_DIR/lib64
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_ARTIFACT_EXTRACT/bin $SANDBOX_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPS_ARTIFACT_EXTRACT/bin $SANDBOX_DIR/lib64
 
 cp -R $OSSIM_ARTIFACT_EXTRACT/lib64/* $SANDBOX_DIR/lib64;
 cp -R $OSSIM_ARTIFACT_EXTRACT/share $SANDBOX_DIR/;
 cp -R $OSSIM_DEPS_ARTIFACT_EXTRACT/share $SANDBOX_DIR/;
+cp $OSSIM_DEPS_ARTIFACT_EXTRACT/bin/gdal* $SANDBOX_DIR/;
+cp $OSSIM_DEPS_ARTIFACT_EXTRACT/bin/ff* $SANDBOX_DIR/;
+cp $OSSIM_DEPS_ARTIFACT_EXTRACT/bin/listgeo $SANDBOX_DIR/;
 cp -R $OSSIM_ARTIFACT_EXTRACT/bin $SANDBOX_DIR/;
 rm -rf $SANDBOX_DIR/bin/ossim-*test
 cp $OSSIM_ARTIFACT_EXTRACT/bin/ossim-batch-test $SANDBOX_DIR/bin
+chmod +x $SANDBOX_DIR/bin/*
+chmod +x $SANDBOX_DIR/lib64/*
 # $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $TEMP_EXTRACT_DIR/lib $SANDBOX_DIR
 # $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $TEMP_EXTRACT_DIR/bin $SANDBOX_DIR
 
