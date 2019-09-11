@@ -4,7 +4,7 @@ BUILD_OSSIM_SCRIPT_DIR=`pwd -P`
 popd >/dev/null
 
 source $BUILD_OSSIM_SCRIPT_DIR/common.sh $1
-if [ -f $OSSIM_DEV_HOME/ossim-deps-$TYPE-dev.tgz ] ; then 
+if [ -f $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz ] ; then 
    cd /usr/local;tar xvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-dev.tgz
 fi
 
