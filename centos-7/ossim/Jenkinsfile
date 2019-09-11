@@ -14,10 +14,11 @@ properties([
 node ("${BUILD_NODE}"){
    try{
       stage( "Download Artifacts" ) {
-         dir("ossim-ci"){
-            git branch: "${BRANCH_NAME}",
-                    url: "${GIT_PRIVATE_SERVER_URL}/ossim-ci.git",
-                    credentialsId: "${CREDENTIALS_ID}"
+          withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
+               step ([$class: "CopyArtifact",
+                  projectName: o2ArtifactProject,
+                  filter: "common-variables.groovy",
+                  flatten: true])
          }
          withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
                step ([$class: "CopyArtifact",
@@ -34,7 +35,8 @@ node ("${BUILD_NODE}"){
             filter: "ossim-deps-${ARTIFACT_TYPE}-all.tgz",
             flatten: true])
          load "common-variables.groovy"
-         load "ossim-ci/jenkins/variables/ossim-variables.groovy"
+      
+         // load "ossim-ci/jenkins/variables/ossim-variables.groovy"
       }
       stage("Checkout"){
          dir("ossim"){
