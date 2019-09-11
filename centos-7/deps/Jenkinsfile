@@ -1,6 +1,7 @@
 properties([
     parameters ([
         string(name: 'BUILD_NODE', defaultValue: 'ossim-build', description: 'The build node to run on'),
+         string(name: 'ARTIFACT_TYPE', defaultValue: 'centos-7', description: 'type of artifact to pull'),
         booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'Clean the workspace at the end of the run')
     ]),
     pipelineTriggers([
@@ -21,7 +22,7 @@ node ("${BUILD_NODE}"){
          }
          step ([$class: "CopyArtifact",
             projectName: "ossim-sandbox-docker-multibranch/${BRANCH_NAME}",
-            filter: "*.tgz",
+            filter: "ossim-build-${ARTIFACT_TYPE}.tgz",
             flatten: true])
          load "common-variables.groovy"
       }
@@ -39,11 +40,11 @@ node ("${BUILD_NODE}"){
 
       }
       stage("Load Build Image"){
-         sh "docker load -i ${env.WORKSPACE}/ossim-build-centos-7.tgz"
+         sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
       }
       stage("Build OSSIM Dependencies")
       {
-         sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-centos-7 ossim-sandbox/build-ossim-dependencies.sh centos-7"
+         sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim-dependencies.sh ${ARTIFACT_TYPE}"
       }
       stage("Archive")
       {

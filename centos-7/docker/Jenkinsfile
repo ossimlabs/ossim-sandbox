@@ -1,7 +1,8 @@
 properties([
     parameters ([
         string(name: 'BUILD_NODE', defaultValue: 'ossim-build', description: 'The build node to run on'),
-        booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'Clean the workspace at the end of the run')
+         string(name: 'ARTIFACT_TYPE', defaultValue: 'centos-7', description: 'type of artifact to pull'),
+       booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'Clean the workspace at the end of the run')
     ]),
     pipelineTriggers([
             [$class: "GitHubPushTrigger"]
@@ -30,7 +31,7 @@ node ("${BUILD_NODE}"){
 
       }
       stage("Create Build Image"){
-         sh "${env.WORKSPACE}/ossim-sandbox/create-build-image.sh centos-7"
+         sh "${env.WORKSPACE}/ossim-sandbox/create-build-image.sh ${ARTIFACT_TYPE}"
       }
       stage("Archive")
       {

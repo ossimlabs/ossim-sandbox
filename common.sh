@@ -19,6 +19,9 @@ popd > /dev/null
 if [ "$MAKE_JOBS" == "" ] ;  then
    export MAKE_JOBS="-j4"
 fi
+if [ "${GRADLE_VERSION}" == "" ] ; then
+   export GRADLE_VERSION="4.10.2"
+fi
 
 if [ "${KAKADU_VERSION}" == "" ] ; then
    export KAKADU_VERSION="v7_7_1-01123C"

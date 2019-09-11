@@ -1,0 +1,106 @@
+properties([
+    parameters ([
+        string(name: 'BUILD_NODE', defaultValue: 'ossim-build', description: 'The build node to run on'),
+        string(name: 'ARTIFACT_TYPE', defaultValue: 'centos-7', description: 'type of artifact to pull'),
+        booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'Clean the workspace at the end of the run')
+    ]),
+    pipelineTriggers([
+            [$class: "GitHubPushTrigger"]
+    ]),
+    [$class: 'GithubProjectProperty', displayName: '', projectUrlStr: 'https://github.com/ossimlabs/ossim-sandbox'],
+    buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '20')),
+    disableConcurrentBuilds()
+])
+node ("${BUILD_NODE}"){
+   try{
+      stage( "Download Artifacts" ) {
+         dir("ossim-ci"){
+            git branch: "${OSSIM_GIT_BRANCH}",
+                    url: "${GIT_PRIVATE_SERVER_URL}/ossim-ci.git",
+                    credentialsId: "${CREDENTIALS_ID}"
+         }
+         withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
+               step ([$class: "CopyArtifact",
+                  projectName: o2ArtifactProject,
+                  filter: "common-variables.groovy",
+                  flatten: true])
+         }
+         step ([$class: "CopyArtifact",
+            projectName: "ossim-sandbox-docker-multibranch/${BRANCH_NAME}",
+            filter: "ossim-build-${ARTIFACT_TYPE}.tgz",
+            flatten: true])
+         step ([$class: "CopyArtifact",
+            projectName: "ossim-sandbox-deps-multibranch/${BRANCH_NAME}",
+            filter: "ossim-deps-${ARTIFACT_TYPE}-all.tgz",
+            flatten: true])
+         load "common-variables.groovy"
+         load "ossim-ci/jenkins/variables/ossim-variables.groovy"
+      }
+      stage("Checkout"){
+         dir("ossim"){
+            git branch: "${OSSIM_GIT_BRANCH}",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
+         dir("ossim-video"){
+            git branch: "${OSSIM_GIT_BRANCH}",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim-video.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
+         dir("ossim-planet"){
+            git branch: "${OSSIM_GIT_BRANCH}",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim-planet.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
+         dir("ossim-gui"){
+            git branch: "${OSSIM_GIT_BRANCH}",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim-gui.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
+         dir("ossim-oms"){
+            git branch: "${OSSIM_GIT_BRANCH}",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim-oms.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
+         dir("ossim-plugins"){
+            git branch: "${OSSIM_GIT_BRANCH}",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim-plugins.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
+         dir("ossim-wms"){
+            git branch: "${OSSIM_GIT_BRANCH}",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim-wms.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
+         dir("ossim-private"){
+            git branch: "${OSSIM_GIT_BRANCH}",
+            url: "${GIT_PRIVATE_SERVER_URL}/ossim-private.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
+         dir("ossim-sandbox"){
+            git branch: "${BRANCH_NAME}",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim-sandbox.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
+
+      }
+      stage("Load Build Image"){
+         sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
+      }
+      stage("Build OSSIM")
+         sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
+      }
+      stage("Archive")
+      {
+         archiveArtifacts "ossim-${ARTIFACT_TYPE}-*.tgz"
+      }
+   }
+   finally
+   {
+      stage("Clean Workspace")
+      {
+         if ("${CLEAN_WORKSPACE}" == "true")
+            step([$class: 'WsCleanup'])
+      }
+   }
+}

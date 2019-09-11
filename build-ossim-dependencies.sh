@@ -447,5 +447,5 @@ echo "Packaging dependencies........"
 cd /usr/local
 tar cvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz *
 tar cvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-runtime.tgz bin lib lib64 share kakadu/lib kakadu/bin
-tar cvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-dev.tgz include lib lib64 kakadu/lib kakadu/managed
+tar cvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-dev.tgz include lib lib64 kakadu/lib kakadu/managed kakadu/apps
 exit 0
