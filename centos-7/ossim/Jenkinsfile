@@ -38,42 +38,42 @@ node ("${BUILD_NODE}"){
       }
       stage("Checkout"){
          dir("ossim"){
-            git branch: "${OSSIM_GIT_BRANCH}",
+            git branch: "${BRANCH_NAME}",
             url: "${GIT_PUBLIC_SERVER_URL}/ossim.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
          dir("ossim-video"){
-            git branch: "${OSSIM_GIT_BRANCH}",
+            git branch: "${BRANCH_NAME}",
             url: "${GIT_PUBLIC_SERVER_URL}/ossim-video.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
          dir("ossim-planet"){
-            git branch: "${OSSIM_GIT_BRANCH}",
+            git branch: "${BRANCH_NAME}",
             url: "${GIT_PUBLIC_SERVER_URL}/ossim-planet.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
          dir("ossim-gui"){
-            git branch: "${OSSIM_GIT_BRANCH}",
+            git branch: "${BRANCH_NAME}",
             url: "${GIT_PUBLIC_SERVER_URL}/ossim-gui.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
          dir("ossim-oms"){
-            git branch: "${OSSIM_GIT_BRANCH}",
+            git branch: "${BRANCH_NAME}",
             url: "${GIT_PUBLIC_SERVER_URL}/ossim-oms.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
          dir("ossim-plugins"){
-            git branch: "${OSSIM_GIT_BRANCH}",
+            git branch: "${BRANCH_NAME}",
             url: "${GIT_PUBLIC_SERVER_URL}/ossim-plugins.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
          dir("ossim-wms"){
-            git branch: "${OSSIM_GIT_BRANCH}",
+            git branch: "${BRANCH_NAME}",
             url: "${GIT_PUBLIC_SERVER_URL}/ossim-wms.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
          dir("ossim-private"){
-            git branch: "${OSSIM_GIT_BRANCH}",
+            git branch: "${BRANCH_NAME}",
             url: "${GIT_PRIVATE_SERVER_URL}/ossim-private.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
