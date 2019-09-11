@@ -21,7 +21,5 @@ RUN yum -y install epel-release && yum clean all&& \
    chmod -R 777 /usr/local && \
    chmod  777 /home/ossim
 RUN echo GRADLE_VERSION=$GRADLE_VERSION; curl -L https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip -o /usr/gradle-$GRADLE_VERSION-bin.zip && \
-   ls /usr/*.zip;cd /usr;unzip gradle-$GRADLE_VERSION-bin.zip;ln -s gradle-$GRADLE_VERSION gradle; &&
-    
-   rm -f /usr/*.zip
+   ls /usr/*.zip;cd /usr;unzip gradle-$GRADLE_VERSION-bin.zip;ln -s gradle-$GRADLE_VERSION gradle; rm -f /usr/*.zip
 USER 1001
