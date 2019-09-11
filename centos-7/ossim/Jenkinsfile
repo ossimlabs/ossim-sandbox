@@ -82,12 +82,11 @@ node ("${BUILD_NODE}"){
             url: "${GIT_PUBLIC_SERVER_URL}/ossim-sandbox.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
-
       }
       stage("Load Build Image"){
          sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
       }
-      stage("Build OSSIM")
+      stage("Build OSSIM"){
          sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
       }
       stage("Archive")
