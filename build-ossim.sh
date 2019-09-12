@@ -133,6 +133,8 @@ $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/lib64 $SANDBOX_DIR/li
 chmod +x $SANDBOX_DIR/bin/*
 chmod +x $SANDBOX_DIR/lib64/*
 
+cd $OSSIM_DEV_HOME
+tar cvfz $SANDBOX_DIR.tgz $SANDBOX_DIR
 
 pushd $OSSIM_DEV_HOME/ossim-oms/joms
 
