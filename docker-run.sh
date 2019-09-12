@@ -52,7 +52,7 @@ if [ "${ROOT_DIR}" == "" ] ; then
 fi
 
 if [ ! "${ENV_FILE}" == "" ] ; then
-   ENV_FILE_ARG="--env-file='${ENV_FILE}'"
+   ENV_FILE_ARG="--env-file=${ENV_FILE}"
 fi
 
 if $INTERACTIVE ; then

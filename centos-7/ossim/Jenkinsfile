@@ -41,6 +41,7 @@ node ("${BUILD_NODE}"){
             flatten: true])
          load "common-variables.groovy"
          echo "MAVEN_DOWNLOAD_URL = ${MAVEN_DOWNLOAD_URL}"
+         println "printenv".execute().text
          // load "ossim-ci/jenkins/variables/ossim-variables.groovy"
       }
       stage("Checkout"){
