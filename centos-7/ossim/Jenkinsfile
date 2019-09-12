@@ -94,15 +94,15 @@ node ("${BUILD_NODE}"){
          sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
       }
       stage("Build OSSIM"){
+         String envText = ""
+         env?.each{k,v-> envText += "${k}=${v}\n"}
+         writeFile file: "${env.WORKSPACE}/env.txt" text: envText
          withCredentials([[$class: 'UsernamePasswordMultiBinding',
                credentialsId: 'nexusCredentials',
                usernameVariable: 'REPOSITORY_MANAGER_USER',
                passwordVariable: 'REPOSITORY_MANAGER_PASSWORD']]) {
                   dir( "${ env.WORKSPACE }" ) {
-                     sh """
-                        export MAVEN_DOWNLOAD_URL
-                        ${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}
-                        """
+                     sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh --env-file ${env.WORKSPACE}/env.txt ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
                   }
          }
       }

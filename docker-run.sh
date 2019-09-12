@@ -10,6 +10,8 @@ ARGS_TO_PASS=""
 INTERACTIVE=false
 DATA="/data"
 WORKING_DIR="/home/ossim/ossimlabs"
+ENV_FILE=""
+ENV_FILE_ARG=""
 while [[ $# -gt 0 ]] ;
 do
     opt="$1";
@@ -32,6 +34,10 @@ do
            WORKING_DIR=$1;
            shift
            ;;
+           "--env-file" )
+           ENV_FILE=$1;
+           shift
+           ;;
         *)
         ARGS_TO_PASS="$ARGS_TO_PASS $opt"; 
         ;;
@@ -45,10 +51,14 @@ if [ "${ROOT_DIR}" == "" ] ; then
    popd > /dev/null
 fi
 
+if [ ! "${ENV_FILE}" == "" ] ; then
+   ENV_FILE_ARG="--env-file=${ENV_FILE}"
+fi
+
 if $INTERACTIVE ; then
-docker run -it -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --volume="$HOME/.Xauthority:/home/ossim/.Xauthority:rw" --env="DISPLAY" --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/ossim/ossimlabs $ARGS_TO_PASS
+docker run -it $ENV_FILE_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --volume="$HOME/.Xauthority:/home/ossim/.Xauthority:rw" --env="DISPLAY" --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/ossim/ossimlabs $ARGS_TO_PASS
 else
-docker run -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --volume="$HOME/.Xauthority:/home/ossim/.Xauthority:rw" --env="DISPLAY" --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/ossim/ossimlabs $ARGS_TO_PASS
+docker run $ENV_FILE_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --volume="$HOME/.Xauthority:/home/ossim/.Xauthority:rw" --env="DISPLAY" --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/ossim/ossimlabs $ARGS_TO_PASS
 fi
 if [ $? -ne 0 ]; then echo "ERROR: Failed execution of $ARGS_TO_PASS" ; exit 1 ; fi
 exit 0
