@@ -111,6 +111,8 @@ mkdir -p $SANDBOX_DIR
 
 # $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $TEMP_EXTRACT_DIR/lib64 $SANDBOX_DIR
 cp -R $OSSIM_INSTALL_PREFIX/lib64/* $SANDBOX_DIR/lib64;
+cp -R $OSSIM_DEPENDENCIES/lib/* $SANDBOX_DIR/lib64/;
+cp -R $OSSIM_DEPENDENCIES/lib64/* $SANDBOX_DIR/lib64/;
 cp -R $OSSIM_INSTALL_PREFIX/share $SANDBOX_DIR/;
 cp -R $OSSIM_DEPENDENCIES/share $SANDBOX_DIR/;
 cp $OSSIM_DEPENDENCIES/bin/gdal* $SANDBOX_DIR/bin/;
@@ -118,6 +120,7 @@ cp $OSSIM_DEPENDENCIES/bin/ff* $SANDBOX_DIR/bin/;
 cp $OSSIM_DEPENDENCIES/bin/listgeo $SANDBOX_DIR/bin/;
 cp -R $OSSIM_INSTALL_PREFIX/bin $SANDBOX_DIR/;
 rm -rf $SANDBOX_DIR/bin/ossim-*test
+rm -f $SANDBOX_DIR/lib64/*.a
 cp $OSSIM_ARTIFACT_EXTRACT/bin/ossim-batch-test $SANDBOX_DIR/bin
 
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/libossim.so $SANDBOX_DIR/lib64
@@ -129,7 +132,6 @@ $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/bin $SANDBOX_DIR/li
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/bin $SANDBOX_DIR/lib64
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/lib $SANDBOX_DIR/lib64
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/lib64 $SANDBOX_DIR/lib64
-
 chmod +x $SANDBOX_DIR/bin/*
 chmod +x $SANDBOX_DIR/lib64/*
 pushd $SANDBOX_DIR
