@@ -17,7 +17,7 @@ pushd $COMMON_SCRIPT_DIR/.. > /dev/null
 export OSSIM_DEV_HOME=`pwd -P`
 export OSSIM_BUILD_DIR=$OSSIM_DEV_HOME/build
 popd > /dev/null
-=
+
 if [ "$OSSIM_MAKE_JOBS" == "" ] ;  then
    export OSSIM_MAKE_JOBS="8"
 fi
