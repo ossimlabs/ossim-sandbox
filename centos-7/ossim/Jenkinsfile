@@ -14,7 +14,7 @@ properties([
     disableConcurrentBuilds()
 ])
 node ("${BUILD_NODE}"){
-   commonVariables=null
+   dockerEnv=""
    try{
       env.BRANCH_NAME     ="${BRANCH_NAME}"
       env.DEPLOY_JOMS     ="${DEPLOY_JOMS}"
@@ -23,7 +23,7 @@ node ("${BUILD_NODE}"){
           withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
                step ([$class: "CopyArtifact",
                   projectName: o2ArtifactProject,
-                  filter: "common-variables.groovy",
+                  filter: "common-*.groovy",
                   flatten: true])
          }
          // step ([$class: "CopyArtifact",
@@ -34,10 +34,9 @@ node ("${BUILD_NODE}"){
          //    projectName: "ossim-sandbox-deps-multibranch/${BRANCH_NAME}",
          //    filter: "ossim-deps-${ARTIFACT_TYPE}-all.tgz",
          //    flatten: true])
-         commonVariables = load "common-variables.groovy"
-         println "SEE IF WE LOAD THE COMMON VARIABLES!!!!!!!!!!!!!!!!!!!"
-         HashMap m = commonVariables?.getCurrentEnv()
-         println m
+         load "common-variables.groovy"
+         commonFunctions = load "common-functions.groovy"
+         dockerEnv = commonFunctions?.getDockerEnv()
          // load "ossim-ci/jenkins/variables/ossim-variables.groovy"
       }
       stage("Checkout"){
@@ -91,16 +90,16 @@ node ("${BUILD_NODE}"){
          sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
       }
       stage("Build OSSIM"){
-         envText += "DEPLOY_JOMS=$DEPLOY_JOMS\n"
-         envText += "OSSIM_MAKE_JOBS=$OSSIM_MAKE_JOBS\n"
-         envText += "MAVEN_DOWNLOAD_URL=$MAVEN_DOWNLOAD_URL\n"
+         dockerEnv += "DEPLOY_JOMS=$DEPLOY_JOMS\n"
+         dockerEnv += "OSSIM_MAKE_JOBS=$OSSIM_MAKE_JOBS\n"
+         dockerEnv += "MAVEN_DOWNLOAD_URL=$MAVEN_DOWNLOAD_URL\n"
          withCredentials([[$class: 'UsernamePasswordMultiBinding',
                credentialsId: 'nexusCredentials',
                usernameVariable: 'REPOSITORY_MANAGER_USER',
                passwordVariable: 'REPOSITORY_MANAGER_PASSWORD']]) {
-               envText += "REPOSITORY_MANAGER_USER=${REPOSITORY_MANAGER_USER}"
-               envText += "REPOSITORY_MANAGER_PASSWORD=${REPOSITORY_MANAGER_PASSWORD}"
-               writeFile file: "${env.WORKSPACE}/env.txt", text: envText
+               dockerEnv += "REPOSITORY_MANAGER_USER=${REPOSITORY_MANAGER_USER}\n"
+               dockerEnv += "REPOSITORY_MANAGER_PASSWORD=${REPOSITORY_MANAGER_PASSWORD}\n"
+               writeFile file: "${env.WORKSPACE}/env.txt", text: dockerEnv
                dir( "${ env.WORKSPACE }" ) {
                   sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh --env-file ${env.WORKSPACE}/env.txt ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
                }
