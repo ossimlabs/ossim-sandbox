@@ -26,18 +26,17 @@ node ("${BUILD_NODE}"){
                   filter: "common-*.groovy",
                   flatten: true])
          }
-         // step ([$class: "CopyArtifact",
-         //    projectName: "ossim-sandbox-docker-multibranch/${BRANCH_NAME}",
-         //    filter: "ossim-build-${ARTIFACT_TYPE}.tgz",
-         //    flatten: true])
-         // step ([$class: "CopyArtifact",
-         //    projectName: "ossim-sandbox-deps-multibranch/${BRANCH_NAME}",
-         //    filter: "ossim-deps-${ARTIFACT_TYPE}-all.tgz",
-         //    flatten: true])
+         step ([$class: "CopyArtifact",
+            projectName: "ossim-sandbox-docker-multibranch/${BRANCH_NAME}",
+            filter: "ossim-build-${ARTIFACT_TYPE}.tgz",
+            flatten: true])
+         step ([$class: "CopyArtifact",
+            projectName: "ossim-sandbox-deps-multibranch/${BRANCH_NAME}",
+            filter: "ossim-deps-${ARTIFACT_TYPE}-all.tgz",
+            flatten: true])
          load "common-variables.groovy"
          commonFunctions = load "common-functions.groovy"
          dockerEnv = commonFunctions?.getDockerEnv()
-         // load "ossim-ci/jenkins/variables/ossim-variables.groovy"
       }
       stage("Checkout"){
          dir("ossim"){
