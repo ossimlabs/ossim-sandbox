@@ -64,8 +64,6 @@ if [ "$CMAKE_BUILD_TYPE" == "" ] ; then
 export CMAKE_BUILD_TYPE=Release
 fi
 export BUILD_OPENCV_PLUGIN=OFF
-export OSSIM_MAKE_JOBS=4
-
 $OSSIM_DEV_HOME/ossim/scripts/build.sh
 $OSSIM_DEV_HOME/ossim/scripts/install.sh
 

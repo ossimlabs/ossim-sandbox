@@ -2,6 +2,7 @@ properties([
     parameters ([
         string(name: 'BUILD_NODE', defaultValue: 'ossim-build', description: 'The build node to run on'),
         string(name: 'ARTIFACT_TYPE', defaultValue: 'centos-7', description: 'type of artifact to pull'),
+        string(name: 'OSSIM_MAKE_JOBS', defaultValue: '8', description: 'type of artifact to pull'),
         booleanParam(name: 'DEPLOY_JOMS', defaultValue: true, description: 'Specify whether or not to deploy JOMS'),
         booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'Clean the workspace at the end of the run'),
     ]),
@@ -14,8 +15,9 @@ properties([
 ])
 node ("${BUILD_NODE}"){
    try{
-      env.BRANCH_NAME="${BRANCH_NAME}"
-      env.DEPLOY_JOMS="${DEPLOY_JOMS}"
+      env.BRANCH_NAME     ="${BRANCH_NAME}"
+      env.DEPLOY_JOMS     ="${DEPLOY_JOMS}"
+      env.OSSIM_MAKE_JOBS ="${OSSIM_MAKE_JOBS}"
       stage( "Download Artifacts" ) {
           withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
                step ([$class: "CopyArtifact",
