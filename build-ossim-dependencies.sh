@@ -8,7 +8,7 @@ source $BUILD_OSSIM_DEPS_DIR/common.sh $1
 #
 # Print out all version we are building
 # 
-echo "MAKE_JOBS        = $MAKE_JOBS"
+echo "OSSIM_MAKE_JOBS  = $OSSIM_MAKE_JOBS"
 echo "KAKADU_VERSION   = $KAKADU_VERSION"
 echo "X264             = $X264"
 echo "SZIP             = $SZIP"
@@ -43,7 +43,7 @@ if [ -d $OSSIM_DEV_HOME/$SZIP ] ; then
    cd build
 #   cmake3 -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..
    cmake3 -DCMAKE_BUILD_TYPE=Release ..
-   make $MAKE_JOBS install
+   make -j $OSSIM_MAKE_JOBS install
    if [ $? -ne 0 ]; then echo "szip install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$SZIP Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -85,7 +85,7 @@ fi
 if [ -d $OSSIM_DEV_HOME/$X264 ] ; then
    cd $OSSIM_DEV_HOME/$X264
    ./configure --enable-shared --prefix=/usr/local --disable-asm
-   make $MAKE_JOBS install install-lib-static install-lib-shared
+   make -j $OSSIM_MAKE_JOBS install install-lib-static install-lib-shared
    if [ $? -ne 0 ]; then echo "x264 install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$X264 Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -106,7 +106,7 @@ fi
 if [ -d $OSSIM_DEV_HOME/$X265 ] ; then
    cd $OSSIM_DEV_HOME/$X265/build/linux
    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ../../source 
-   make $MAKE_JOBS VERBOSE=true install
+   make -j $OSSIM_MAKE_JOBS VERBOSE=true install
    if [ $? -ne 0 ]; then echo "x265 make install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$X265.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -129,7 +129,7 @@ if [ -d $OSSIM_DEV_HOME/$PROJ4 ] ; then
    mkdir build
    cd build
    cmake3 -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .. 
-   make $MAKE_JOBS VERBOSE=true install
+   make -j $OSSIM_MAKE_JOBS VERBOSE=true install
    if [ $? -ne 0 ]; then echo "proj4 make install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$PROJ4.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -154,7 +154,7 @@ if [ -d $OSSIM_DEV_HOME/$SZIP ] ; then
    mkdir build
    cd build
    cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$SZIP_INSTALL .. 
-   make $MAKE_JOBS VERBOSE=true install
+   make -j $OSSIM_MAKE_JOBS VERBOSE=true install
    if [ $? -ne 0 ]; then echo "szip make install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$SZIP.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -176,7 +176,7 @@ if [ -d $OSSIM_DEV_HOME/$JPEG12_TURBO ] ; then
    cd $OSSIM_DEV_HOME/$JPEG12_TURBO
    autoreconf -fiv
    ./configure --prefix=/usr/local/jpeg12 --disable-static --with-12bit --with-jpeg8
-   make $MAKE_JOBS install
+   make -j $OSSIM_MAKE_JOBS install
    mkdir -p /usr/local/include/jpeg12
    mv /usr/local/jpeg12/include/* /usr/local/include/jpeg12
    mv /usr/local/jpeg12/lib/* /usr/local/lib/
@@ -214,7 +214,7 @@ if [ -d $OSSIM_DEV_HOME/$FFMPEG ] ; then
                --enable-sdl2 --disable-securetransport --mandir=/usr/local/share/man \
                --enable-shared --enable-pthreads --arch=x86_64 --enable-x86asm \
                --enable-gpl --enable-postproc --enable-libx264 
-   make $MAKE_JOBS install
+   make -j $OSSIM_MAKE_JOBS install
    if [ $? -ne 0 ]; then echo "ffmpeg make install error: $error" ; exit 1 ; fi
 
 else
@@ -252,7 +252,7 @@ if [ -d $OSSIM_DEV_HOME/$HDF5 ] ; then
    -DHDF5_ENABLE_SZIP_SUPPORT=ON \
    ..
 
-   make VERBOSE=1 $MAKE_JOBS install
+   make VERBOSE=1 -j $OSSIM_MAKE_JOBS install
    if [ $? -ne 0 ]; then echo "hdf5 make install error: $error" ; exit 1 ; fi
  
 else
@@ -276,7 +276,7 @@ if [ -d $OSSIM_DEV_HOME/$AWS_SDK ] ; then
    mkdir -p build
    cd build
    cmake3 .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DENABLE_TESTING=OFF -DBUILD_ONLY="s3;sqs;sns;cognito-identity"
-   make $MAKE_JOBS VERBOSE=1 install
+   make -j $OSSIM_MAKE_JOBS VERBOSE=1 install
    if [ $? -ne 0 ]; then echo "aws sdk make install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$AWS_SDK.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -296,7 +296,7 @@ if [ -d $OSSIM_DEV_HOME/$GEOS ] ; then
    mkdir -p build
    cd build
    cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
-   make $MAKE_JOBS VERBOSE=1 install
+   make -j $OSSIM_MAKE_JOBS VERBOSE=1 install
    if [ $? -ne 0 ]; then echo "geos make install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$GEOS.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -319,7 +319,7 @@ if [ -d $OSSIM_DEV_HOME/$GEOTIFF ] ; then
    # cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
    # make $MAKE_JOBS VERBOSE=1 install
    ./configure --prefix=/usr/local --enable-shared --disable-static
-   make $MAKE_JOBS install
+   make -j $OSSIM_MAKE_JOBS install
    if [ $? -ne 0 ]; then echo "geotff make install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$GEOTIFF.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -340,7 +340,7 @@ fi
 if [ -d $OSSIM_DEV_HOME/$GDAL ] ; then
    cd $OSSIM_DEV_HOME/$GDAL
    ./configure --with-kakadu=$OSSIM_DEV_HOME/ossim-private/kakadu/$KAKADU_VERSION --with-proj=/usr/local --with-jpeg=internal --prefix=/usr/local --enable-shared --disable-static 
-   make $MAKE_JOBS install
+   make -j $OSSIM_MAKE_JOBS install
    if [ $? -ne 0 ]; then echo "gdal make install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$AWS_SDK.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -363,7 +363,7 @@ if [ -d $OSSIM_DEV_HOME/$GPSTK ] ; then
    mkdir -p build
    cd build
    cmake ../dev -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local
-   make VERBOSE=1 $MAKE_JOBS install
+   make VERBOSE=1 -j $OSSIM_MAKE_JOBS install
    if [ $? -ne 0 ]; then echo "gpstk make install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$GPSTK.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -402,7 +402,7 @@ fi
 #    -DHDF5_ENABLE_SZIP_SUPPORT=ON \
 #    -DHDF5_INSTALL_LIB_DIR=/usr/lib64 \
 #    ..
-#    make VERBOSE=1 $MAKE_JOBS install DESTDIR=$OSSIM_DEV_HOME/$HDF5A/build/install
+#    make VERBOSE=1 -j $OSSIM_MAKE_JOBS install DESTDIR=$OSSIM_DEV_HOME/$HDF5A/build/install
 #    if [ $? -ne 0 ]; then echo "hdf5A make install error: $error" ; exit 1 ; fi
 # else
 #    echo "Error: $OSSIM_DEV_HOME/$HDF5A.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
@@ -436,7 +436,7 @@ if [ -d $OSSIM_DEV_HOME/$OPENSCENEGRAPH ] ; then
       -DBUILD_OSG_EXAMPLES=OFF \
       -DBUILD_DOCUMENTATION=OFF \
       .. -Wno-dev
-   make $MAKE_JOBS VERBOSE=1 install
+   make -j $OSSIM_MAKE_JOBS VERBOSE=1 install
    if [ $? -ne 0 ] ; then echo "OpenSceneGraph make install error: $error" ; exit 1 ; fi
 else
    echo "Error: $OSSIM_DEV_HOME/$OPENSCENEGRAPH.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"

@@ -18,8 +18,12 @@ export OSSIM_DEV_HOME=`pwd -P`
 export OSSIM_BUILD_DIR=$OSSIM_DEV_HOME/build
 popd > /dev/null
 =
-if [ "$MAKE_JOBS" == "" ] ;  then
-   export MAKE_JOBS="-j4"
+if [ "$OSSIM_MAKE_JOBS" == "" ] ;  then
+   export OSSIM_MAKE_JOBS="8"
+fi
+
+if [ "${REPOSITORY_MANAGER_URL}" == "" ] ; then
+   export REPOSITORY_MANAGER_URL=$MAVEN_DOWNLOAD_URL
 fi
 
 if [ "${GRADLE_VERSION}" == "" ] ; then

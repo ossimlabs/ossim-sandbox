@@ -4,6 +4,8 @@ BUILD_OSSIM_SCRIPT_DIR=`pwd -P`
 popd >/dev/null
 
 source $BUILD_OSSIM_SCRIPT_DIR/common.sh $1
+echo "REPOSITORY_MANAGER_URL  = ${REPOSITORY_MANAGER_URL}"
+
 if [ -f $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz ] ; then 
    cd /usr/local;tar xvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz
    export OSSIM_DEPENDENCIES=/usr/local
@@ -69,8 +71,6 @@ $OSSIM_DEV_HOME/ossim/scripts/install.sh
 
 $OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/build.sh
 $OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/install.sh
-export REPOSITORY_MANAGER_URL=$MAVEN_DOWNLOAD_URL
-
 #if [ -f $OSSIM_DEV_HOME/ossim-oms/joms/local.properties ] ; then
 # cp $OSSIM_DEV_HOME/ossim-oms/joms/local.properties.template $OSSIM_DEV_HOME/ossim-oms/joms/local.properties 
 # fi
