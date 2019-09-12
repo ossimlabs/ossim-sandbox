@@ -58,6 +58,7 @@ fi
 if $INTERACTIVE ; then
 docker run -it $ENV_FILE_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --volume="$HOME/.Xauthority:/home/ossim/.Xauthority:rw" --env="DISPLAY" --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/ossim/ossimlabs $ARGS_TO_PASS
 else
+echo docker run $ENV_FILE_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --volume="$HOME/.Xauthority:/home/ossim/.Xauthority:rw" --env="DISPLAY" --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/ossim/ossimlabs $ARGS_TO_PASS
 docker run $ENV_FILE_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --volume="$HOME/.Xauthority:/home/ossim/.Xauthority:rw" --env="DISPLAY" --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/ossim/ossimlabs $ARGS_TO_PASS
 fi
 if [ $? -ne 0 ]; then echo "ERROR: Failed execution of $ARGS_TO_PASS" ; exit 1 ; fi
