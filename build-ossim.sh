@@ -108,6 +108,10 @@ export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib64:$OSSIM_INSTALL_PREFIX/lib:$LD
 echo "************************** Creating Runtime Sandbox ***************************"
 export SANDBOX_DIR=$OSSIM_DEV_HOME/ossim-sandbox-$TYPE-runtime
 mkdir -p $SANDBOX_DIR
+mkdir -p $SANDBOX_DIR/bin
+mkdir -p $SANDBOX_DIR/lib64
+mkdir -p $SANDBOX_DIR/lib
+
 
 # $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $TEMP_EXTRACT_DIR/lib64 $SANDBOX_DIR
 cp -R $OSSIM_INSTALL_PREFIX/lib64/* $SANDBOX_DIR/lib64;
