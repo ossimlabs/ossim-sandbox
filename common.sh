@@ -9,6 +9,9 @@ popd >/dev/null
 
 TYPE=$1
 
+if [ "${DEPLOY_JOMS}" == "" ] ; then
+   export DEPLOY_JOMS="true"
+fi
 
 pushd $COMMON_SCRIPT_DIR/.. > /dev/null
 export OSSIM_DEV_HOME=`pwd -P`

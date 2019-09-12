@@ -95,15 +95,17 @@ cd $OSSIM_DEV_HOME/ossim-$TYPE-runtime
 tar cvfz $OSSIM_DEV_HOME/ossim-$TYPE-runtime.tgz *
 popd
 
+$OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/build.sh
+$OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/install.sh
+
 pushd $OSSIM_DEV_HOME/ossim-oms/joms
-   if [ ! -f local.properties ] ; then
-     cp local.properties.template local.properties
-   fi
-   ant clean mvn-install install
-   gradle uploadArchives
-   if [ $? -ne 0 ]; then
-     echo; echo "ERROR: Build failed for JOMS Deploy to Nexus."
-     exit 1
+
+   if "$DEPLOY_JOMS" ; then
+      gradle uploadArchives
+      if [ $? -ne 0 ]; then
+      echo; echo "ERROR: Build failed for JOMS Deploy to Nexus."
+      exit 1
+      fi
    fi
 popd
 
