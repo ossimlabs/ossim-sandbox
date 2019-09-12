@@ -1,8 +1,10 @@
 FROM library/centos:7
 ARG GRADLE_VERSION=4.10.2
+ARG GROOVY_VERSION=2.4.15
 ENV HOME=/home/ossim \
    JAVA_HOME=/usr/lib/jvm/java \
    GRADLE_HOME=/usr/gradle\
+   GROOVY_HOME=/usr/groovy\
    PATH=/usr/bin:/usr/local/bin:/usr/gradle/bin:$PATH
 
 RUN yum -y install epel-release && yum clean all&& \
@@ -20,6 +22,8 @@ RUN yum -y install epel-release && yum clean all&& \
    rm -rf /usr/local/* && \
    chmod -R 777 /usr/local && \
    chmod  777 /home/ossim
-RUN echo GRADLE_VERSION=$GRADLE_VERSION; curl -L https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip -o /usr/gradle-$GRADLE_VERSION-bin.zip && \
-   ls /usr/*.zip;cd /usr;unzip gradle-$GRADLE_VERSION-bin.zip;ln -s gradle-$GRADLE_VERSION gradle; rm -f /usr/*.zip
+RUN curl -L https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip -o /usr/gradle-$GRADLE_VERSION-bin.zip; \
+   curl -L https://archive.apache.org/dist/groovy/$GROOVY_VERSION/distribution/apache-groovy-binary-$GROOVY_VERSION.zip -o /usr/apache-groovy-binary-$GROOVY_VERSION.zip; \
+   cd /usr;unzip gradle-$GRADLE_VERSION-bin.zip;unzip apache-groovy-binary-$GROOVY_VERSION.zip; \
+   ln -s gradle-$GRADLE_VERSION gradle; ln -s groovy-$GROOVY_VERSION groovy;rm -f /usr/*.zip
 USER 1001

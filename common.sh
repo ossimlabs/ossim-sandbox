@@ -22,7 +22,9 @@ fi
 if [ "${GRADLE_VERSION}" == "" ] ; then
    export GRADLE_VERSION="4.10.2"
 fi
-
+if [ "${GROOVY_VERSION}" == "" ] ; then
+   export GROOVY_VERSION=2.4.15
+fi
 if [ "${KAKADU_VERSION}" == "" ] ; then
    export KAKADU_VERSION="v7_7_1-01123C"
 fi

@@ -5,7 +5,7 @@ popd >/dev/null
 
 source $CREATE_BUILD_IMAGE_SCRIPT_DIR/common.sh $*
 
-docker build --build-arg GRADLE_VERSION=${GRADLE_VERSION} -t ossim-build-$TYPE -f $CREATE_BUILD_IMAGE_SCRIPT_DIR/$TYPE/docker/Dockerfile $CREATE_BUILD_IMAGE_SCRIPT_DIR/$TYPE/docker
+docker build --build-arg GRADLE_VERSION=${GRADLE_VERSION} --build-arg GROOVY_VERSION=${GROOVY_VERSION} -t ossim-build-$TYPE -f $CREATE_BUILD_IMAGE_SCRIPT_DIR/$TYPE/docker/Dockerfile $CREATE_BUILD_IMAGE_SCRIPT_DIR/$TYPE/docker
 if [ $? -ne 0 ]; then echo "ERROR: Unable to create build image" ; exit 1 ; fi
 docker save ossim-build-$TYPE | gzip -c > $OSSIM_DEV_HOME/ossim-build-$TYPE.tgz
 exit 0

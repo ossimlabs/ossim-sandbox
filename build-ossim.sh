@@ -64,6 +64,7 @@ export OSSIM_MAKE_JOBS=4
 export OSSIM_INSTALL_PREFIX=$OSSIM_DEV_HOME/ossim-$TYPE-all
 $OSSIM_DEV_HOME/ossim/scripts/build.sh
 $OSSIM_DEV_HOME/ossim/scripts/install.sh
+
 # REPOSITORY_MANAGER_URL=https://nexus.ossim.io/repository
 # if [ -f $OSSIM_DEV_HOME/ossim-oms/joms/local.properties ] ; then
 # cp $OSSIM_DEV_HOME/ossim-oms/joms/local.properties.template $OSSIM_DEV_HOME/ossim-oms/joms/local.properties 
