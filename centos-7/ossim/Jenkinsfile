@@ -96,7 +96,9 @@ node ("${BUILD_NODE}"){
       stage("Build OSSIM"){
          String envText = ""
          env?.each{k,v-> envText += "${k}=${v}\n"}
-         writeFile file: "${env.WORKSPACE}/env.txt" text: envText
+         envText += "DEPLOY_JOMS=$DEPLOY_JOMS\n"
+         envText += "OSSIM_MAKE_JOBS=$OSSIM_MAKE_JOBS\n"
+         writeFile file: "${env.WORKSPACE}/env.txt", text: envText
          withCredentials([[$class: 'UsernamePasswordMultiBinding',
                credentialsId: 'nexusCredentials',
                usernameVariable: 'REPOSITORY_MANAGER_USER',
