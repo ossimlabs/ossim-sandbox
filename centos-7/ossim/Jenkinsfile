@@ -25,23 +25,20 @@ node ("${BUILD_NODE}"){
                   filter: "common-variables.groovy",
                   flatten: true])
          }
-         withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
-               step ([$class: "CopyArtifact",
-                  projectName: o2ArtifactProject,
-                  filter: "common-variables.groovy",
-                  flatten: true])
-         }
-         step ([$class: "CopyArtifact",
-            projectName: "ossim-sandbox-docker-multibranch/${BRANCH_NAME}",
-            filter: "ossim-build-${ARTIFACT_TYPE}.tgz",
-            flatten: true])
-         step ([$class: "CopyArtifact",
-            projectName: "ossim-sandbox-deps-multibranch/${BRANCH_NAME}",
-            filter: "ossim-deps-${ARTIFACT_TYPE}-all.tgz",
-            flatten: true])
+         // step ([$class: "CopyArtifact",
+         //    projectName: "ossim-sandbox-docker-multibranch/${BRANCH_NAME}",
+         //    filter: "ossim-build-${ARTIFACT_TYPE}.tgz",
+         //    flatten: true])
+         // step ([$class: "CopyArtifact",
+         //    projectName: "ossim-sandbox-deps-multibranch/${BRANCH_NAME}",
+         //    filter: "ossim-deps-${ARTIFACT_TYPE}-all.tgz",
+         //    flatten: true])
          load "common-variables.groovy"
          echo "MAVEN_DOWNLOAD_URL = ${MAVEN_DOWNLOAD_URL}"
-         println "printenv".execute().text
+         String envText = ""
+         env?.properties.each{k,v-> envText += "${k}=${v}\n"}
+         println envText
+         System.exit(0)
          // load "ossim-ci/jenkins/variables/ossim-variables.groovy"
       }
       stage("Checkout"){
