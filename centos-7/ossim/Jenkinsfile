@@ -40,7 +40,7 @@ node ("${BUILD_NODE}"){
             filter: "ossim-deps-${ARTIFACT_TYPE}-all.tgz",
             flatten: true])
          load "common-variables.groovy"
-         echo "MAVEN_DOWNLOAD_URL = ${env.MAVEN_DOWNLOAD_URL}"
+         echo "MAVEN_DOWNLOAD_URL = ${MAVEN_DOWNLOAD_URL}"
          // load "ossim-ci/jenkins/variables/ossim-variables.groovy"
       }
       stage("Checkout"){
