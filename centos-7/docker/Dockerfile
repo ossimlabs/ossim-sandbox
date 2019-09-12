@@ -16,7 +16,7 @@ RUN yum -y install epel-release && yum clean all&& \
    libmodplug-devel libass-devel libbluray-devel libvpx-devel libvpx gnutls-devel gnutls openjpeg2-devel \
    fontconfig-devel xz-devel xz zlib-devel SDL2-devel mesa-libGL-devel mesa-libGLU-devel\
    java-1.8.0-openjdk-devel fribidi-devel speex-devel soxr-devel bzip2-devel bzip2 \ \
-   qt5-qtbase-devel minizip-devel chrpath unzip\
+   qt5-qtbase-devel minizip-devel chrpath unzip maven\
    yum clean all && \
    useradd -u 1001 -r -g 0 --create-home -d $HOME -s /sbin/nologin -c 'Default Build User' ossim && \
    rm -rf /usr/local/* && \
