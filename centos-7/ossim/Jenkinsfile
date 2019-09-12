@@ -34,11 +34,8 @@ node ("${BUILD_NODE}"){
          //    filter: "ossim-deps-${ARTIFACT_TYPE}-all.tgz",
          //    flatten: true])
          load "common-variables.groovy"
-         echo "MAVEN_DOWNLOAD_URL = ${MAVEN_DOWNLOAD_URL}"
-         String envText = ""
-         env?.properties.each{k,v-> envText += "${k}=${v}\n"}
-         println envText
-         System.exit(0)
+         HashMap m = env.getEnvironment()
+         println m
          // load "ossim-ci/jenkins/variables/ossim-variables.groovy"
       }
       stage("Checkout"){
@@ -92,11 +89,9 @@ node ("${BUILD_NODE}"){
          sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
       }
       stage("Build OSSIM"){
-         String envText = ""
-         env?.each{k,v-> envText += "${k}=${v}\n"}
          envText += "DEPLOY_JOMS=$DEPLOY_JOMS\n"
          envText += "OSSIM_MAKE_JOBS=$OSSIM_MAKE_JOBS\n"
-         println envText
+         envText += "MAVEN_DOWNLOAD_URL=$MAVEN_DOWNLOAD_URL\n"
          withCredentials([[$class: 'UsernamePasswordMultiBinding',
                credentialsId: 'nexusCredentials',
                usernameVariable: 'REPOSITORY_MANAGER_USER',
