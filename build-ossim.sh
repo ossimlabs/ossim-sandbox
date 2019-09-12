@@ -65,6 +65,9 @@ if [ "$CMAKE_BUILD_TYPE" == "" ] ; then
 export CMAKE_BUILD_TYPE=Release
 fi
 export BUILD_OPENCV_PLUGIN=OFF
+echo "OSSIM_DEV_HOME        = ${OSSIM_DEV_HOME}"
+echo "OSSIM_BUILD_DIR        = ${OSSIM_BUILD_DIR}"
+echo "OSSIM_INSTALL_PREFIX        = ${OSSIM_INSTALL_PREFIX}"
 $OSSIM_DEV_HOME/ossim/scripts/build.sh
 $OSSIM_DEV_HOME/ossim/scripts/install.sh
 
