@@ -108,6 +108,7 @@ node ("${BUILD_NODE}"){
       stage("Archive")
       {
          archiveArtifacts "ossim-${ARTIFACT_TYPE}-*.tgz"
+         archiveArtifacts "ossim-sandbox-${ARTIFACT_TYPE}-*.tgz"
       }
    }
    finally
