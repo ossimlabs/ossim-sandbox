@@ -14,6 +14,7 @@ properties([
     disableConcurrentBuilds()
 ])
 node ("${BUILD_NODE}"){
+   commonVariables=null
    try{
       env.BRANCH_NAME     ="${BRANCH_NAME}"
       env.DEPLOY_JOMS     ="${DEPLOY_JOMS}"
@@ -33,8 +34,8 @@ node ("${BUILD_NODE}"){
          //    projectName: "ossim-sandbox-deps-multibranch/${BRANCH_NAME}",
          //    filter: "ossim-deps-${ARTIFACT_TYPE}-all.tgz",
          //    flatten: true])
-         load "common-variables.groovy"
-         HashMap m = getCurrentEnv()
+         commonVariables = load "common-variables.groovy"
+         HashMap m = commonVariables?.getCurrentEnv()
          println m
          // load "ossim-ci/jenkins/variables/ossim-variables.groovy"
       }
