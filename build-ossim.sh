@@ -67,8 +67,11 @@ export OSSIM_MAKE_JOBS=4
 $OSSIM_DEV_HOME/ossim/scripts/build.sh
 $OSSIM_DEV_HOME/ossim/scripts/install.sh
 
-# REPOSITORY_MANAGER_URL=https://nexus.ossim.io/repository
-# if [ -f $OSSIM_DEV_HOME/ossim-oms/joms/local.properties ] ; then
+$OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/build.sh
+$OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/install.sh
+export REPOSITORY_MANAGER_URL=$MAVEN_DOWNLOAD_URL
+
+#if [ -f $OSSIM_DEV_HOME/ossim-oms/joms/local.properties ] ; then
 # cp $OSSIM_DEV_HOME/ossim-oms/joms/local.properties.template $OSSIM_DEV_HOME/ossim-oms/joms/local.properties 
 # fi
 # cd $OSSIM_DEV_HOME/ossim-oms/joms
@@ -90,6 +93,18 @@ cd ossim-$TYPE-dev
 tar cvfz $OSSIM_DEV_HOME/ossim-$TYPE-dev.tgz *
 cd $OSSIM_DEV_HOME/ossim-$TYPE-runtime
 tar cvfz $OSSIM_DEV_HOME/ossim-$TYPE-runtime.tgz *
+popd
+
+pushd $OSSIM_DEV_HOME/ossim-oms/joms
+   if [ ! -f local.properties ] ; then
+     cp local.properties.template local.properties
+   fi
+   ant clean mvn-install install
+   gradle uploadArchives
+   if [ $? -ne 0 ]; then
+     echo; echo "ERROR: Build failed for JOMS Deploy to Nexus."
+     exit 1
+   fi
 popd
 
 exit 0

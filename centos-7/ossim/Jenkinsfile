@@ -90,7 +90,14 @@ node ("${BUILD_NODE}"){
          sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
       }
       stage("Build OSSIM"){
-         sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
+         withCredentials([[$class: 'UsernamePasswordMultiBinding',
+               credentialsId: 'nexusCredentials',
+               usernameVariable: 'REPOSITORY_MANAGER_USER',
+               passwordVariable: 'REPOSITORY_MANAGER_PASSWORD']]) {
+                  dir( "${ env.WORKSPACE }" ) {
+                     sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
+                  }
+         }
       }
       stage("Archive")
       {
