@@ -4,7 +4,7 @@ BUILD_OSSIM_SCRIPT_DIR=`pwd -P`
 popd >/dev/null
 
 source $BUILD_OSSIM_SCRIPT_DIR/common.sh $1
-echo "MAVEN_DOWNLOAD_URL      = ${MAVEN_DOWNLOAD_URL}"
+echo "MAVEN_DOWNLOAD_URL      = $MAVEN_DOWNLOAD_URL"
 echo "REPOSITORY_MANAGER_URL  = ${REPOSITORY_MANAGER_URL}"
 
 if [ -f $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz ] ; then 
