@@ -99,7 +99,10 @@ node ("${BUILD_NODE}"){
                usernameVariable: 'REPOSITORY_MANAGER_USER',
                passwordVariable: 'REPOSITORY_MANAGER_PASSWORD']]) {
                   dir( "${ env.WORKSPACE }" ) {
-                     sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
+                     sh """
+                        export MAVEN_DOWNLOAD_URL
+                        ${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}
+                        """
                   }
          }
       }
