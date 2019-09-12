@@ -94,7 +94,15 @@ tar cvfz $OSSIM_DEV_HOME/ossim-$TYPE-runtime.tgz *
 popd
 
 $OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/build.sh
+if [ $? -ne 0 ]; then
+   echo; echo "ERROR: Build filed for joms."
+   exit 1
+fi
 $OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/install.sh
+if [ $? -ne 0 ]; then
+   echo; echo "ERROR: Install filed for joms."
+   exit 1
+fi
 
 pushd $OSSIM_DEV_HOME/ossim-oms/joms
 
