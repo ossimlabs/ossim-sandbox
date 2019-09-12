@@ -5,7 +5,7 @@ ENV HOME=/home/ossim \
    JAVA_HOME=/usr/lib/jvm/java \
    GRADLE_HOME=/usr/gradle\
    GROOVY_HOME=/usr/groovy\
-   PATH=/usr/bin:/usr/local/bin:/usr/gradle/bin:$PATH
+   PATH=/usr/bin:/usr/local/bin:/usr/groovy/bin:/usr/gradle/bin:$PATH
 
 RUN yum -y install epel-release && yum clean all&& \
    yum -y install git wget curl gcc tcsh gcc-c++ libtool ant \
