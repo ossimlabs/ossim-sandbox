@@ -13,21 +13,36 @@ TYPE=$1
 pushd $COMMON_SCRIPT_DIR/.. > /dev/null
 export OSSIM_DEV_HOME=`pwd -P`
 export OSSIM_BUILD_DIR=$OSSIM_DEV_HOME/build
-export OSSIM_INSTALL_PREFIX=$OSSIM_DEV_HOME/install
 popd > /dev/null
-
+=
 if [ "$MAKE_JOBS" == "" ] ;  then
    export MAKE_JOBS="-j4"
 fi
+
 if [ "${GRADLE_VERSION}" == "" ] ; then
    export GRADLE_VERSION="4.10.2"
 fi
+
 if [ "${GROOVY_VERSION}" == "" ] ; then
    export GROOVY_VERSION=2.4.15
 fi
+
+if [ "${OSSIM_VERSION}" == "" ] ; then
+   export OSSIM_VERSION="1.9.0"
+fi
+
+if [ "${OSSIM_VERSION_TAG}" == "" ] ; then
+   if [ "${BRANCH_NAME}" == "master" ] ; then
+      export OSSIM_VERSION_TAG="$OSSIM_VERSION"
+   else
+      export OSSIM_VERSION_TAG="SNAPSHOT"
+   fi
+fi
+
 if [ "${KAKADU_VERSION}" == "" ] ; then
    export KAKADU_VERSION="v7_7_1-01123C"
 fi
+
 if [ "$X264" == "" ] ; then
   export X264="x264-0.155-20180923-545de2f"
 fi
@@ -97,3 +112,5 @@ fi
 if [ "$TYPE" == "" ] ; then
   TYPE="$OS_ID-$OS_ID_VERSION"
 fi
+
+export OSSIM_INSTALL_PREFIX=$OSSIM_DEV_HOME/ossim-$TYPE-all

@@ -13,6 +13,7 @@ properties([
 ])
 node ("${BUILD_NODE}"){
    try{
+      env.BRANCH_NAME="${BRANCH_NAME}"
       stage( "Download Artifacts" ) {
           withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
                step ([$class: "CopyArtifact",

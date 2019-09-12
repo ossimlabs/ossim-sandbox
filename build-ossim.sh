@@ -6,13 +6,16 @@ popd >/dev/null
 source $BUILD_OSSIM_SCRIPT_DIR/common.sh $1
 if [ -f $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz ] ; then 
    cd /usr/local;tar xvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz
+   export OSSIM_DEPENDENCIES=/usr/local
+else
+   export OSSIM_DEPENDENCIES=$OSSIM_DEV_HOME/ossim-dependencies
 fi
 
-export OSSIM_DEPENDENCIES=$OSSIM_DEV_HOME/ossim-dependencies
 if [ -d $OSSIM_DEPENDENCIES ] ; then
-   export LD_LIBRARY_PATH=$OSSIM_DEPENDENCIES:/lib:$OSSIM_DEPENDENCIES:/lib64:$LD_LIBRARY_PATH
+   export LD_LIBRARY_PATH=$OSSIM_DEPENDENCIES/lib:$OSSIM_DEPENDENCIES:/lib64:$LD_LIBRARY_PATH
    export PATH=$OSSIM_DEPENDENCIES:/bin:$LD_LIBRARY_PATH
 fi
+
 rm -f $OSSIM_BUILD_DIR/CMakeCache.txt
 export QTDIR=/usr
 export BUILD_GEOPDF_PLUGIN=OFF 
@@ -61,7 +64,6 @@ fi
 export BUILD_OPENCV_PLUGIN=OFF
 export OSSIM_MAKE_JOBS=4
 
-export OSSIM_INSTALL_PREFIX=$OSSIM_DEV_HOME/ossim-$TYPE-all
 $OSSIM_DEV_HOME/ossim/scripts/build.sh
 $OSSIM_DEV_HOME/ossim/scripts/install.sh
 
