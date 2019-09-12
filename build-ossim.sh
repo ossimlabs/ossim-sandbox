@@ -103,6 +103,8 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 
+$BUILD_OSSIM_SCRIPT_DIR/create-sandbox.sh
+
 pushd $OSSIM_DEV_HOME/ossim-oms/joms
 
    if "$DEPLOY_JOMS" ; then
