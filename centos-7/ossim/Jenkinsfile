@@ -98,9 +98,10 @@ node ("${BUILD_NODE}"){
                passwordVariable: 'REPOSITORY_MANAGER_PASSWORD']]) {
                dockerEnv += "REPOSITORY_MANAGER_USER=${REPOSITORY_MANAGER_USER}\n"
                dockerEnv += "REPOSITORY_MANAGER_PASSWORD=${REPOSITORY_MANAGER_PASSWORD}\n"
-               writeFile file: "${env.WORKSPACE}/env.txt", text: dockerEnv
+               //writeFile file: "${env.WORKSPACE}/env.txt", text: dockerEnv
                dir( "${ env.WORKSPACE }" ) {
-                  sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh --env-file ${env.WORKSPACE}/env.txt ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
+//                  sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh --env-file ${env.WORKSPACE}/env.txt ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
+                  sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ${env.WORKSPACE}/env.txt ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
                }
          }
       }

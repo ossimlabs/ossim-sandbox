@@ -18,7 +18,7 @@ if [ -d $OSSIM_DEPENDENCIES ] ; then
    export LD_LIBRARY_PATH=$OSSIM_DEPENDENCIES/lib:$OSSIM_DEPENDENCIES:/lib64:$LD_LIBRARY_PATH
    export PATH=$OSSIM_DEPENDENCIES:/bin:$LD_LIBRARY_PATH
 fi
-
+mkdir -p $OSSIM_BUILD_DIR
 rm -f $OSSIM_BUILD_DIR/CMakeCache.txt
 export QTDIR=/usr
 export BUILD_GEOPDF_PLUGIN=OFF 
@@ -70,11 +70,6 @@ $OSSIM_DEV_HOME/ossim/scripts/install.sh
 
 $OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/build.sh
 $OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/install.sh
-#if [ -f $OSSIM_DEV_HOME/ossim-oms/joms/local.properties ] ; then
-# cp $OSSIM_DEV_HOME/ossim-oms/joms/local.properties.template $OSSIM_DEV_HOME/ossim-oms/joms/local.properties 
-# fi
-# cd $OSSIM_DEV_HOME/ossim-oms/joms
-# ant clean install
 
 cp $OSSIM_INSTALL_PREFIX/share/ossim/ossim-preferences-template $OSSIM_INSTALL_PREFIX/share/ossim/ossim-site-preferences
 if [ $? -ne 0 ]; then echo "ERROR: Failed build for OSSIM" ; exit 1 ; fi
