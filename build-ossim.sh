@@ -94,16 +94,45 @@ popd
 
 $OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/build.sh
 if [ $? -ne 0 ]; then
-   echo; echo "ERROR: Build filed for joms."
+   echo; echo "ERROR: Build failed for joms."
    exit 1
 fi
 $OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/install.sh
 if [ $? -ne 0 ]; then
-   echo; echo "ERROR: Install filed for joms."
+   echo; echo "ERROR: Install failed for joms."
    exit 1
 fi
 
-$BUILD_OSSIM_SCRIPT_DIR/create-sandbox.sh
+export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib64:$OSSIM_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH
+
+echo "************************** Creating Runtime Sandbox ***************************"
+export SANDBOX_DIR=$OSSIM_DEV_HOME/ossim-sandbox-$TYPE-runtime
+mkdir -p $SANDBOX_DIR
+
+# $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $TEMP_EXTRACT_DIR/lib64 $SANDBOX_DIR
+cp -R $OSSIM_INSTALL_PREFIX/lib64/* $SANDBOX_DIR/lib64;
+cp -R $OSSIM_INSTALL_PREFIX/share $SANDBOX_DIR/;
+cp -R $OSSIM_DEPENDENCIES/share $SANDBOX_DIR/;
+cp $OSSIM_DEPENDENCIES/bin/gdal* $SANDBOX_DIR/;
+cp $OSSIM_DEPENDENCIES/bin/ff* $SANDBOX_DIR/;
+cp $OSSIM_DEPENDENCIES/bin/listgeo $SANDBOX_DIR/;
+cp -R $OSSIM_INSTALL_PREFIX/bin $SANDBOX_DIR/;
+rm -rf $SANDBOX_DIR/bin/ossim-*test
+cp $OSSIM_ARTIFACT_EXTRACT/bin/ossim-batch-test $SANDBOX_DIR/bin
+
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/libossim.so $SANDBOX_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/liboms.so $SANDBOX_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/libossim-wms.so $SANDBOX_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/libossim-video.so $SANDBOX_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/ossim/plugins $SANDBOX_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/bin $SANDBOX_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/bin $SANDBOX_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/lib $SANDBOX_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/lib64 $SANDBOX_DIR/lib64
+
+chmod +x $SANDBOX_DIR/bin/*
+chmod +x $SANDBOX_DIR/lib64/*
+
 
 pushd $OSSIM_DEV_HOME/ossim-oms/joms
 
