@@ -98,6 +98,7 @@ node ("${BUILD_NODE}"){
          env?.each{k,v-> envText += "${k}=${v}\n"}
          envText += "DEPLOY_JOMS=$DEPLOY_JOMS\n"
          envText += "OSSIM_MAKE_JOBS=$OSSIM_MAKE_JOBS\n"
+         println envText
          withCredentials([[$class: 'UsernamePasswordMultiBinding',
                credentialsId: 'nexusCredentials',
                usernameVariable: 'REPOSITORY_MANAGER_USER',
