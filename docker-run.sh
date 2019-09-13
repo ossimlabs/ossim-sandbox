@@ -56,10 +56,10 @@ if [ ! "${ENV_FILE}" == "" ] ; then
 fi
 
 if $INTERACTIVE ; then
-docker run -it $ENV_FILE_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host  --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/jenkins/ossimlabs $ARGS_TO_PASS
+docker run -it $ENV_FILE_ARG --entrypoint=bash -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host  --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/jenkins/ossimlabs $ARGS_TO_PASS
 else
-echo docker run $ENV_FILE_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host   --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/jenkins/ossimlabs $ARGS_TO_PASS
-docker run $ENV_FILE_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/jenkins/ossimlabs $ARGS_TO_PASS
+echo docker run $ENV_FILE_ARG --entrypoint=bash -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host   --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/jenkins/ossimlabs $ARGS_TO_PASS
+docker run $ENV_FILE_ARG --entrypoint=bash -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/jenkins/ossimlabs $ARGS_TO_PASS
 fi
 if [ $? -ne 0 ]; then echo "ERROR: Failed execution of $ARGS_TO_PASS" ; exit 1 ; fi
 exit 0
