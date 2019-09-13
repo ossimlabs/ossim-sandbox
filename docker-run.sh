@@ -9,7 +9,7 @@ popd > /dev/null
 ARGS_TO_PASS=""
 INTERACTIVE=false
 DATA="/data"
-WORKING_DIR="/home/ossim/ossimlabs"
+WORKING_DIR="/home/jenkins/ossimlabs"
 ENV_FILE=""
 ENV_FILE_ARG=""
 while [[ $# -gt 0 ]] ;
