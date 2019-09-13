@@ -1,4 +1,4 @@
-FROM library/centos:7
+FROM centos:7
 ARG GRADLE_VERSION=4.10.2
 ARG GROOVY_VERSION=2.4.15
 ENV HOME=/home/ossim \
@@ -21,7 +21,7 @@ RUN yum -y install epel-release && yum clean all&& \
    yum clean all && \
    # useradd -u 1001 -r -g 0 --create-home -d $HOME -s /sbin/nologin -c 'Default Build User' ossim && \
    rm -rf /usr/local/* && \
-   chmod -R 777 /usr/local && \
+   chmod -R 777 /usr/local 
 RUN curl -L https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip -o /usr/gradle-$GRADLE_VERSION-bin.zip; \
    curl -L https://archive.apache.org/dist/groovy/$GROOVY_VERSION/distribution/apache-groovy-binary-$GROOVY_VERSION.zip -o /usr/apache-groovy-binary-$GROOVY_VERSION.zip; \
    cd /usr;unzip gradle-$GRADLE_VERSION-bin.zip;unzip apache-groovy-binary-$GROOVY_VERSION.zip; \
