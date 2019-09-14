@@ -101,8 +101,8 @@ node ("${BUILD_NODE}"){
                writeFile file: "${env.WORKSPACE}/env.txt", text: dockerEnv
                //println dockerEnv
                dir( "${ env.WORKSPACE }" ) {
-                sh "ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
-                  //  sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh --env-file ${env.WORKSPACE}/env.txt ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
+               //  sh "ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
+                   sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh --env-file ${env.WORKSPACE}/env.txt ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
                }
          }
       }
