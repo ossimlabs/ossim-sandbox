@@ -6,6 +6,7 @@ popd >/dev/null
 source $BUILD_OSSIM_SCRIPT_DIR/common.sh $1
 echo "MAVEN_DOWNLOAD_URL      = $MAVEN_DOWNLOAD_URL"
 echo "REPOSITORY_MANAGER_URL  = ${REPOSITORY_MANAGER_URL}"
+echo "OSSIM_DEV_HOME          = $OSSIM_DEV_HOME"
 
 if [ -f $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz ] ; then 
    cd /usr/local;tar xvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz
@@ -13,7 +14,7 @@ if [ -f $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz ] ; then
 else
    export OSSIM_DEPENDENCIES=$OSSIM_DEV_HOME/ossim-dependencies
 fi
-
+echo "OSSIM_DEPENDENCIES      = $OSSIM_DEPENDENCIES"
 if [ -d $OSSIM_DEPENDENCIES ] ; then
    export LD_LIBRARY_PATH=$OSSIM_DEPENDENCIES/lib:$OSSIM_DEPENDENCIES/lib64:$LD_LIBRARY_PATH
    export PATH=$OSSIM_DEPENDENCIES:/bin:$PATH
