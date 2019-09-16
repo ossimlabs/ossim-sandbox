@@ -13,6 +13,20 @@ if [ "${DEPLOY_JOMS}" == "" ] ; then
    export DEPLOY_JOMS="true"
 fi
 
+export DOCKER_LABEL=""
+echo "BRANCH_NAME = ${BRANCH_NAME}"
+if [ "$BRANCH_NAME" == "dev" ] ; then
+   export DOCKER_LABEL="latest"
+elif if [ "$BRANCH_NAME" == "master" ] ; then 
+   export DOCKER_LABEL="release"
+else
+   export DOCKER_LABEL=$BRANCH_NAME
+fi
+
+if [ "$DOCKER_LABEL" == "" ] ; then
+   export DOCKER_LABEL="latest"
+fi
+
 pushd $COMMON_SCRIPT_DIR/.. > /dev/null
 export OSSIM_DEV_HOME=`pwd -P`
 export OSSIM_BUILD_DIR=$OSSIM_DEV_HOME/build

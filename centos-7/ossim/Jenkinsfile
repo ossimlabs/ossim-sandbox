@@ -89,6 +89,10 @@ node ("${BUILD_NODE}"){
          sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
       }
       stage("Build OSSIM"){
+         DOCKER_LABEL = "latest"
+         if(BRANCH_NAME == "master") DOCKER_LABEL="release"
+         else if(BRANCH_NAME != "dev" ) DOCKER_LABEL=BRANCH_NAME
+
          dockerEnv += "DEPLOY_JOMS=$DEPLOY_JOMS\n"
          dockerEnv += "OSSIM_MAKE_JOBS=$OSSIM_MAKE_JOBS\n"
          dockerEnv += "MAVEN_DOWNLOAD_URL=$MAVEN_DOWNLOAD_URL\n"
@@ -102,7 +106,7 @@ node ("${BUILD_NODE}"){
                //println dockerEnv
                dir( "${ env.WORKSPACE }" ) {
                //  sh "ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
-                   sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh --env-file ${env.WORKSPACE}/env.txt ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
+                   sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh --env-file ${env.WORKSPACE}/env.txt ossim-build-${ARTIFACT_TYPE}:${DOCKER_LABEL} ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
                }
          }
       }
