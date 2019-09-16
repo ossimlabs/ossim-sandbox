@@ -126,7 +126,7 @@ cp $OSSIM_DEPENDENCIES/bin/listgeo $SANDBOX_DIR/bin/;
 cp -R $OSSIM_INSTALL_PREFIX/bin $SANDBOX_DIR/;
 rm -rf $SANDBOX_DIR/bin/ossim-*test
 rm -f $SANDBOX_DIR/lib64/*.a
-cp $OSSIM_ARTIFACT_EXTRACT/bin/ossim-batch-test $SANDBOX_DIR/bin
+cp $OSSIM_INSTALL_PREFIX/bin/ossim-batch-test $SANDBOX_DIR/bin
 
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/libossim.so $SANDBOX_DIR/lib64
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/liboms.so $SANDBOX_DIR/lib64
