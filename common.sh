@@ -17,7 +17,7 @@ export DOCKER_LABEL=""
 echo "BRANCH_NAME = ${BRANCH_NAME}"
 if [ "$BRANCH_NAME" == "dev" ] ; then
    export DOCKER_LABEL="latest"
-elif if [ "$BRANCH_NAME" == "master" ] ; then 
+elif [ "$BRANCH_NAME" == "master" ] ; then 
    export DOCKER_LABEL="release"
 else
    export DOCKER_LABEL=$BRANCH_NAME
