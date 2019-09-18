@@ -12,11 +12,11 @@ DATA="/data"
 WORKING_DIR="/home/jenkins/ossimlabs"
 ENV_FILE=""
 ENV_FILE_ARG=""
+ENTRY_POINT_ARG=""
 while [[ $# -gt 0 ]] ;
 do
     opt="$1";
     shift;              #expose next argument
-    echo $opt
     case "$opt" in
         "--interactive" )
            INTERACTIVE="$1"; 
@@ -38,6 +38,10 @@ do
            ENV_FILE=$1;
            shift
            ;;
+           "--entrypoint" )
+           ENTRY_POINT=$1;
+           shift
+           ;;
         *)
         ARGS_TO_PASS="$ARGS_TO_PASS $opt"; 
         ;;
@@ -55,12 +59,17 @@ if [ ! "${ENV_FILE}" == "" ] ; then
    ENV_FILE_ARG="--env-file=${ENV_FILE}"
 fi
 
-if $INTERACTIVE ; then
-docker run -it $ENV_FILE_ARG --entrypoint=bash -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host  --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/jenkins/ossimlabs $ARGS_TO_PASS
-else
-echo docker run $ENV_FILE_ARG --entrypoint=bash -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host   --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/jenkins/ossimlabs $ARGS_TO_PASS
-docker run $ENV_FILE_ARG --entrypoint=bash -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=/home/jenkins/ossimlabs $ARGS_TO_PASS
+if [ ! "${ENTRY_POINT}" == "" ] ;  then
+   ENTRY_POINT_ARG = "--entrypoint ${ENTRY_POINT}"
 fi
+
+if $INTERACTIVE ; then
+  echo docker run -it $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host  --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS
+  docker run -it $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host  --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS
+else
+  echo docker run $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host   --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS
+  docker run $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS
+fi
+
 if [ $? -ne 0 ]; then echo "ERROR: Failed execution of $ARGS_TO_PASS" ; exit 1 ; fi
 exit 0
-
