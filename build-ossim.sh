@@ -84,6 +84,7 @@ mkdir -p ossim-$TYPE-runtime;
 cp -R ossim-$TYPE-all/include ossim-$TYPE-dev/
 cp -R ossim-$TYPE-all/lib ossim-$TYPE-dev/
 cp -R ossim-$TYPE-all/lib64 ossim-$TYPE-dev/
+cp -R ossim-$TYPE-all/share ossim-$TYPE-dev/
 cp -R ossim-$TYPE-all/bin ossim-$TYPE-runtime/
 cp -R ossim-$TYPE-all/lib64 ossim-$TYPE-runtime/
 cp -R ossim-$TYPE-all/share ossim-$TYPE-runtime/
