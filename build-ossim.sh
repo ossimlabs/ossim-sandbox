@@ -77,8 +77,9 @@ $OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/install.sh
 
 cp $OSSIM_INSTALL_PREFIX/share/ossim/ossim-preferences-template $OSSIM_INSTALL_PREFIX/share/ossim/ossim-site-preferences
 if [ $? -ne 0 ]; then echo "ERROR: Failed build for OSSIM" ; exit 1 ; fi
-pushd $OSSIM_DEV_HOME
-tar cvfz ossim-$TYPE-all.tgz ossim-$TYPE-all
+pushd $OSSIM_DEV_HOME/ossim-$TYPE-all
+tar cvfz $OSSIM_DEV_HOME/ossim-$TYPE-all.tgz *
+popd
 mkdir -p ossim-$TYPE-dev;
 mkdir -p ossim-$TYPE-runtime;
 cp -R ossim-$TYPE-all/include ossim-$TYPE-dev/
