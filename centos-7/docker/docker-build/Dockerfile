@@ -1,7 +1,7 @@
 FROM centos:7
 ARG GRADLE_VERSION=4.10.2
 ARG GROOVY_VERSION=2.4.15
-ENV HOME=/home/ossim \
+ENV HOME=/home/jenkins \
    JAVA_HOME=/usr/lib/jvm/java \
    JRE_HOME=/usr/lib/jvm/jre \
    GRADLE_HOME=/usr/gradle\
