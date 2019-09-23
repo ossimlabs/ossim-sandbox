@@ -80,16 +80,16 @@ if [ $? -ne 0 ]; then echo "ERROR: Failed build for OSSIM" ; exit 1 ; fi
 pushd $OSSIM_DEV_HOME/ossim-$TYPE-all
 tar cvfz $OSSIM_DEV_HOME/ossim-$TYPE-all.tgz *
 popd
-mkdir -p ossim-$TYPE-dev;
-mkdir -p ossim-$TYPE-runtime;
-cp -R ossim-$TYPE-all/include ossim-$TYPE-dev/
-cp -R ossim-$TYPE-all/lib ossim-$TYPE-dev/
-cp -R ossim-$TYPE-all/lib64 ossim-$TYPE-dev/
-cp -R ossim-$TYPE-all/share ossim-$TYPE-dev/
-cp -R ossim-$TYPE-all/bin ossim-$TYPE-runtime/
-cp -R ossim-$TYPE-all/lib64 ossim-$TYPE-runtime/
-cp -R ossim-$TYPE-all/share ossim-$TYPE-runtime/
-cd ossim-$TYPE-dev
+mkdir -p $OSSIM_DEV_HOME/ossim-$TYPE-dev;
+mkdir -p $OSSIM_DEV_HOME/ossim-$TYPE-runtime;
+cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/include $OSSIM_DEV_HOME/ossim-$TYPE-dev/
+cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/lib $OSSIM_DEV_HOME/ossim-$TYPE-dev/
+cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/lib64 $OSSIM_DEV_HOME/ossim-$TYPE-dev/
+cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/share $OSSIM_DEV_HOME/ossim-$TYPE-dev/
+cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/bin $OSSIM_DEV_HOME/ossim-$TYPE-runtime/
+cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/lib64 $OSSIM_DEV_HOME/ossim-$TYPE-runtime/
+cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/share $OSSIM_DEV_HOME/ossim-$TYPE-runtime/
+cd $OSSIM_DEV_HOME/ossim-$TYPE-dev
 tar cvfz $OSSIM_DEV_HOME/ossim-$TYPE-dev.tgz *
 cd $OSSIM_DEV_HOME/ossim-$TYPE-runtime
 tar cvfz $OSSIM_DEV_HOME/ossim-$TYPE-runtime.tgz *
