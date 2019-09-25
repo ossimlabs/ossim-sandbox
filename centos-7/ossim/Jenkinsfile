@@ -46,7 +46,7 @@ node ("${BUILD_NODE}"){
          }
          dir("ossim-batch-test"){
             git branch: "${BRANCH_NAME}",
-            url: "${GIT_PRIVATE_SERVER_URL}/ossim-batch-test.git",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim-batch-test.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
          dir("ossim-video"){
