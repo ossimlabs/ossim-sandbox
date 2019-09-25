@@ -111,10 +111,11 @@ node ("${BUILD_NODE}"){
                //println dockerEnv
                dir( "${ env.WORKSPACE }" ) {
                //  sh "ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
-               sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh
-                  --env-file ${env.WORKSPACE}/env.txt
-                  ossim-build-${ARTIFACT_TYPE}:${DOCKER_LABEL}
-                  ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
+               """${env.WORKSPACE}/ossim-sandbox/docker-run.sh \
+                  --env-file ${env.WORKSPACE}/env.txt \
+                  ossim-build-${ARTIFACT_TYPE}:${DOCKER_LABEL} \
+                  ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}
+               """
                }
          }
       }
