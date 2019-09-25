@@ -101,7 +101,6 @@ node ("${BUILD_NODE}"){
          dockerEnv += "DEPLOY_JOMS=$DEPLOY_JOMS\n"
          dockerEnv += "OSSIM_MAKE_JOBS=$OSSIM_MAKE_JOBS\n"
          dockerEnv += "MAVEN_DOWNLOAD_URL=$MAVEN_DOWNLOAD_URL\n"
-         dockerEnv += "TYPE=$ARTIFACT_TYPE\n"
          withCredentials([[$class: 'UsernamePasswordMultiBinding',
                credentialsId: 'nexusCredentials',
                usernameVariable: 'REPOSITORY_MANAGER_USER',
@@ -122,7 +121,8 @@ node ("${BUILD_NODE}"){
       }
       stage("Archive")
       {
-         archiveArtifacts "ossim-${ARTIFACT_TYPE}-*.tgz"
+         sh "ls -la"
+         //archiveArtifacts "ossim-${ARTIFACT_TYPE}-*.tgz"
          archiveArtifacts "ossim-sandbox-${ARTIFACT_TYPE}-*.tgz"
       }
    }
