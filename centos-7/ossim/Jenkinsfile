@@ -121,9 +121,9 @@ node ("${BUILD_NODE}"){
       }
       stage("Archive")
       {
-         sh "ls -la"
+         sh "ls -laR"
          //archiveArtifacts "ossim-${ARTIFACT_TYPE}-*.tgz"
-         /archiveArtifacts "ossim-sandbox-${ARTIFACT_TYPE}-*.tgz"
+         //archiveArtifacts "ossim-sandbox-${ARTIFACT_TYPE}-*.tgz"
       }
    }
    finally
