@@ -78,8 +78,9 @@ $OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/install.sh
 cp $OSSIM_INSTALL_PREFIX/share/ossim/ossim-preferences-template $OSSIM_INSTALL_PREFIX/share/ossim/ossim-site-preferences
 if [ $? -ne 0 ]; then echo "ERROR: Failed build for OSSIM" ; exit 1 ; fi
 pushd $OSSIM_DEV_HOME/ossim-$TYPE-all
-tar cvfz $OSSIM_DEV_HOME/ossim-$TYPE-all.tgz *
+tar cvfz $ROOT_DIR/ossim-$TYPE-all.tgz *
 popd
+
 mkdir -p $OSSIM_DEV_HOME/ossim-$TYPE-dev;
 mkdir -p $OSSIM_DEV_HOME/ossim-$TYPE-runtime;
 cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/include $OSSIM_DEV_HOME/ossim-$TYPE-dev/
@@ -89,10 +90,13 @@ cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/share $OSSIM_DEV_HOME/ossim-$TYPE-dev/
 cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/bin $OSSIM_DEV_HOME/ossim-$TYPE-runtime/
 cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/lib64 $OSSIM_DEV_HOME/ossim-$TYPE-runtime/
 cp -R $OSSIM_DEV_HOME/ossim-$TYPE-all/share $OSSIM_DEV_HOME/ossim-$TYPE-runtime/
-cd $OSSIM_DEV_HOME/ossim-$TYPE-dev
-tar cvfz $OSSIM_DEV_HOME/ossim-$TYPE-dev.tgz *
-cd $OSSIM_DEV_HOME/ossim-$TYPE-runtime
-tar cvfz $OSSIM_DEV_HOME/ossim-$TYPE-runtime.tgz *
+
+pushd $OSSIM_DEV_HOME/ossim-$TYPE-dev
+tar cvfz $ROOT_DIR/ossim-$TYPE-dev.tgz *
+popd
+
+pushd $OSSIM_DEV_HOME/ossim-$TYPE-runtime
+tar cvfz $ROOT_DIR/ossim-$TYPE-runtime.tgz *
 popd
 
 $OSSIM_DEV_HOME/ossim-oms/joms/build_scripts/linux/build.sh
@@ -109,7 +113,8 @@ fi
 export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib64:$OSSIM_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH
 
 echo "************************** Creating Runtime Sandbox ***************************"
-export SANDBOX_DIR=$OSSIM_DEV_HOME/ossim-sandbox-$TYPE-runtime
+export SANDBOX_NAME=ossim-sandbox-$TYPE-runtime
+export SANDBOX_DIR=$OSSIM_DEV_HOME/$SANDBOX_NAME
 mkdir -p $SANDBOX_DIR
 mkdir -p $SANDBOX_DIR/bin
 mkdir -p $SANDBOX_DIR/lib64
@@ -140,8 +145,10 @@ $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/lib $SANDBOX_DIR/lib6
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/lib64 $SANDBOX_DIR/lib64
 chmod +x $SANDBOX_DIR/bin/*
 chmod +x $SANDBOX_DIR/lib64/*
+
 pushd $SANDBOX_DIR
-tar cvfz $SANDBOX_DIR.tgz *
+tar cvfz $ROOT_DIR/$SANDBOX_NAME.tgz *
+popd
 
 pushd $OSSIM_DEV_HOME/ossim-oms/joms
 
