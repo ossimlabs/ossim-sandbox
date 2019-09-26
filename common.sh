@@ -27,13 +27,12 @@ if [ "$DOCKER_LABEL" == "" ] ; then
    export DOCKER_LABEL="latest"
 fi
 
-if [ "${WORKSPACE}" == "" ] ; then
-   export OSSIM_DEV_HOME=$WORKSPACE
-else
-   pushd $COMMON_SCRIPT_DIR/.. > /dev/null
-   export OSSIM_DEV_HOME=`pwd -P`
-   popd > /dev/null
-fi
+pushd $COMMON_SCRIPT_DIR/.. > /dev/null
+export OSSIM_DEV_HOME=`pwd -P`
+popd > /dev/null
+
+ec ho "**********************${OSSIM_DEV_HOME}*******************"
+ls -la $OSSIM_DEV_HOME
 
 export OSSIM_BUILD_DIR=$OSSIM_DEV_HOME/build
 
