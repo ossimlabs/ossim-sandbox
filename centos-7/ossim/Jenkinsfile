@@ -110,21 +110,23 @@ node ("${BUILD_NODE}"){
                writeFile file: "${env.WORKSPACE}/env.txt", text: dockerEnv
                //println dockerEnv
                dir( "${ env.WORKSPACE }" ) {
-               //  sh "ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}"
                """${env.WORKSPACE}/ossim-sandbox/docker-run.sh \
                   --env-file ${env.WORKSPACE}/env.txt \
                   ossim-build-${ARTIFACT_TYPE}:${DOCKER_LABEL} \
-                  ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}
+                  ${ env.WORKSPACE }/ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}
                """
                }
          }
       }
       stage("Archive")
       {
-         sh "ls -la"
          archiveArtifacts "ossim-${ARTIFACT_TYPE}-*.tgz"
          archiveArtifacts "ossim-sandbox-${ARTIFACT_TYPE}-*.tgz"
       }
+   }
+   catch(e)
+   {
+      e.printStackTrace()
    }
    finally
    {
