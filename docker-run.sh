@@ -48,7 +48,7 @@ do
    esac
 done
 
-source $DOCKER_RUN_SCRIPT/common.sh
+# source $DOCKER_RUN_SCRIPT/common.sh
 if [ "${ROOT_DIR}" == "" ] ; then 
    pushd $DOCKER_RUN_SCRIPT/.. > /dev/null
    ROOT_DIR=`pwd -P`

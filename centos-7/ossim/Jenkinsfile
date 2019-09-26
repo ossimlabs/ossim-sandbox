@@ -113,7 +113,7 @@ node ("${BUILD_NODE}"){
                """${env.WORKSPACE}/ossim-sandbox/docker-run.sh \
                   --env-file ${env.WORKSPACE}/env.txt \
                   ossim-build-${ARTIFACT_TYPE}:${DOCKER_LABEL} \
-                  ${ env.WORKSPACE }/ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}
+                  ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}
                """
                }
          }
