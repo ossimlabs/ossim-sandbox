@@ -126,7 +126,7 @@ node ("${BUILD_NODE}"){
    }
    catch(e)
    {
-      e.printStackTrace()
+      println e
    }
    finally
    {
