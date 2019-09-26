@@ -1,8 +1,10 @@
 #!/bin/bash
+echo "HERE IN THE BUILD OSSIMN SCRIPT!!!!!!!!!!!!!!!!!!!!!!!"
 pushd `dirname ${BASH_SOURCE[0]}` >/dev/null
 BUILD_OSSIM_SCRIPT_DIR=`pwd -P`
 popd >/dev/null
 
+echo "SOURCING: $BUILD_OSSIM_SCRIPT_DIR/common.sh $1"
 source $BUILD_OSSIM_SCRIPT_DIR/common.sh $1
 echo "MAVEN_DOWNLOAD_URL      = $MAVEN_DOWNLOAD_URL"
 echo "REPOSITORY_MANAGER_URL  = ${REPOSITORY_MANAGER_URL}"

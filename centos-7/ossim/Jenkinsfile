@@ -124,10 +124,6 @@ node ("${BUILD_NODE}"){
          archiveArtifacts "ossim-sandbox-${ARTIFACT_TYPE}-*.tgz"
       }
    }
-   catch(e)
-   {
-      println e
-   }
    finally
    {
       stage("Clean Workspace")
