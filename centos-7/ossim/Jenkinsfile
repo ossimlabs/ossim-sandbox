@@ -108,9 +108,9 @@ node ("${BUILD_NODE}"){
                dockerEnv += "REPOSITORY_MANAGER_USER=${REPOSITORY_MANAGER_USER}\n"
                dockerEnv += "REPOSITORY_MANAGER_PASSWORD=${REPOSITORY_MANAGER_PASSWORD}\n"
                writeFile file: "${env.WORKSPACE}/env.txt", text: dockerEnv
-               println dockerEnv
                dir( "${ env.WORKSPACE }" ) {
-               """ossim-sandbox/docker-run.sh \
+
+               sh """ossim-sandbox/docker-run.sh \
                   --env-file ${env.WORKSPACE}/env.txt \
                   ossim-build-${ARTIFACT_TYPE}:${DOCKER_LABEL} \
                   ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}
