@@ -31,7 +31,6 @@ pushd $COMMON_SCRIPT_DIR/.. > /dev/null
 export OSSIM_DEV_HOME=`pwd -P`
 popd > /dev/null
 
-ec ho "**********************${OSSIM_DEV_HOME}*******************"
 ls -la $OSSIM_DEV_HOME
 
 export OSSIM_BUILD_DIR=$OSSIM_DEV_HOME/build
