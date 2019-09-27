@@ -21,7 +21,6 @@ echo "GPSTK            = $GPSTK"
 echo "AWS_SDK          = $AWS_SDK"
 echo "HDF5             = $HDF5"
 echo "OPENSCENEGRAPH   = $OPENSCENEGRAPH"
-echo "SZIP             = $SZIP"
 echo "PROJ4            = $PROJ4"
 echo "OS_ID            = $OS_ID"
 echo "OS_ID_VERSION    = $OS_ID_VERSION"
@@ -147,19 +146,19 @@ if [ ! -d $OSSIM_DEV_HOME/$SZIP ] ; then
   popd > /dev/null
 fi
 
-if [ -d $OSSIM_DEV_HOME/$SZIP ] ; then
-   export SZIP_INSTALL=/usr/local
+# if [ -d $OSSIM_DEV_HOME/$SZIP ] ; then
+#    export SZIP_INSTALL=/usr/local
 
-   cd $OSSIM_DEV_HOME/$SZIP
-   mkdir build
-   cd build
-   cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$SZIP_INSTALL .. 
-   make -j $OSSIM_MAKE_JOBS VERBOSE=true install
-   if [ $? -ne 0 ]; then echo "szip make install error: $error" ; exit 1 ; fi
-else
-   echo "Error: $OSSIM_DEV_HOME/$SZIP.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
-   exit 1  
-fi
+#    cd $OSSIM_DEV_HOME/$SZIP
+#    mkdir build
+#    cd build
+#    cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$SZIP_INSTALL .. 
+#    make -j $OSSIM_MAKE_JOBS VERBOSE=true install
+#    if [ $? -ne 0 ]; then echo "szip make install error: $error" ; exit 1 ; fi
+# else
+#    echo "Error: $OSSIM_DEV_HOME/$SZIP.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
+#    exit 1  
+# fi
 
 #
 # Setup libjpeg12-turbo
