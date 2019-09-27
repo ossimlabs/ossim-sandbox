@@ -26,6 +26,13 @@ node ("${BUILD_NODE}"){
             flatten: true])
          load "common-variables.groovy"
       }
+      stage("Checkout"){
+         dir("ossim-sandbox"){
+            git branch: "${BRANCH_NAME}",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim-sandbox.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
+      }
       stage("Load Build Image"){
          sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
       }

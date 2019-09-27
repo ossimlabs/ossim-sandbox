@@ -10,12 +10,21 @@ echo "MAVEN_DOWNLOAD_URL      = $MAVEN_DOWNLOAD_URL"
 echo "REPOSITORY_MANAGER_URL  = ${REPOSITORY_MANAGER_URL}"
 echo "OSSIM_DEV_HOME          = $OSSIM_DEV_HOME"
 
-if [ -f $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz ] ; then 
-   cd /usr/local;tar xvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz
+if [ -f $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz ] ; then
+   cd /usr/local
+   tar xvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz
    export OSSIM_DEPENDENCIES=/usr/local
 else
    export OSSIM_DEPENDENCIES=$OSSIM_DEV_HOME/ossim-dependencies
 fi
+
+if [ -f $OSSIM_DEV_HOME/qt4-${TYPE}.tgz ]; then
+   pushd $OSSIM_DEPENDENCIES;
+   tar xvf $OSSIM_DEV_HOME/qt4-${TYPE}.tgz
+   popd
+   export BUILD_OSSIM_QT4=ON
+fi
+
 echo "OSSIM_DEPENDENCIES      = $OSSIM_DEPENDENCIES"
 if [ -d $OSSIM_DEPENDENCIES ] ; then
    export LD_LIBRARY_PATH=$OSSIM_DEPENDENCIES/lib:$OSSIM_DEPENDENCIES/lib64:$LD_LIBRARY_PATH
@@ -63,6 +72,7 @@ export BUILD_SQLITE_PLUGIN=ON
 export BUILD_CNES_PLUGIN=ON
 export BUILD_KML_PLUGIN=ON
 export BUILD_OPENJPEG_PLUGIN=OFF
+
 #export CMAKE_BUILD_TYPE=RelWithDebugInfo
 if [ "$CMAKE_BUILD_TYPE" == "" ] ; then
 export CMAKE_BUILD_TYPE=Release
