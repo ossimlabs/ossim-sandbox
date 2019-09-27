@@ -21,7 +21,10 @@ if [ ! -d $OSSIM_DEV_HOME/$QT4 ] ; then
   rm -f $QT4.tgz
 fi
 
+echo "##########################################################################"
+echo "PWD=$PWD"
 ls -la
+echo "##########################################################################"
 
 if [ -d $OSSIM_DEV_HOME/$QT4 ] ; then
    pushd $OSSIM_DEV_HOME/$QT4
@@ -36,8 +39,7 @@ if [ -d $OSSIM_DEV_HOME/$QT4 ] ; then
       exit 1
    fi
 else
-   echo "Error: $OSSIM_DEV_HOME/$QT4 Not found.  Please edit build-qt4-dependency.sh to specify the proper "
-   echo "version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
+   echo "Error: $OSSIM_DEV_HOME/$QT4 Not found."
    exit 1  
 fi
 
