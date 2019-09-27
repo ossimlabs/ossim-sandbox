@@ -4,7 +4,7 @@ properties([
         string(name: 'ARTIFACT_TYPE', defaultValue: 'centos-7', description: 'type of artifact to pull'),
         string(name: 'OSSIM_MAKE_JOBS', defaultValue: '8', description: 'Number of jobs for the make system'),
         string(name: 'GIT_PUBLIC_SERVER_URL', defaultValue: 'https://github.com/ossimlabs', description: ''),
-        booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'Clean the workspace at the end of the run')
+        booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'Clean the workspace at the end of the run'),
         booleanParam(name: 'MAKE_VERBOSE', defaultValue: true, description: '')
     ]),
     [$class: 'GithubProjectProperty', displayName: '', projectUrlStr: 'https://github.com/ossimlabs/ossim-sandbox'],
