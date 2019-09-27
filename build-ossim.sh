@@ -19,6 +19,7 @@ else
 fi
 
 if [ -f $OSSIM_DEV_HOME/qt4-${TYPE}.tgz ]; then
+   echo; echo "*** Building with QT4 ***"; echo
    pushd $OSSIM_DEPENDENCIES;
    tar xvf $OSSIM_DEV_HOME/qt4-${TYPE}.tgz
    popd
@@ -155,6 +156,11 @@ $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/bin $SANDBOX_DIR/li
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/bin $SANDBOX_DIR/lib64
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/lib $SANDBOX_DIR/lib64
 $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/lib64 $SANDBOX_DIR/lib64
+
+if [ -f $OSSIM_INSTALL_PREFIX/lib64/libossimQt.so ]; then
+   $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/libossimQt.so $SANDBOX_DIR/lib64
+fi
+
 chmod +x $SANDBOX_DIR/bin/*
 chmod +x $SANDBOX_DIR/lib64/*
 

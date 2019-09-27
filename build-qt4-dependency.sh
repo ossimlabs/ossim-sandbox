@@ -22,11 +22,6 @@ if [ ! -d $OSSIM_DEV_HOME/$QT4 ] ; then
   rm -f $QT4.tgz
 fi
 
-echo "##########################################################################"
-echo "PWD=$PWD"
-ls -la
-echo "##########################################################################"
-
 if [ -d $OSSIM_DEV_HOME/$QT4 ] ; then
    pushd $OSSIM_DEV_HOME/$QT4
    ./configure -opensource -confirm-license
