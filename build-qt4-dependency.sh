@@ -3,7 +3,8 @@
 pushd `dirname ${BASH_SOURCE[0]}` >/dev/null
 BUILD_OSSIM_SCRIPT_DIR=`pwd -P`
 popd
-pushd `dirname ${BASH_SOURCE[0]}` >/dev/null
+
+pushd `dirname ${BASH_SOURCE[0]}`/..
 
 export OSSIM_DEV_HOME=`pwd -P`
 echo "SOURCING: $BUILD_OSSIM_SCRIPT_DIR/common.sh $1"
@@ -44,5 +45,5 @@ else
 fi
 
 tar cvfz $OSSIM_DEV_HOME/qt4-$TYPE.tgz bin lib include
-
+popd
 exit 0
