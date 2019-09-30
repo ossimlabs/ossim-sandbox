@@ -25,7 +25,7 @@ fi
 if [ -d $OSSIM_DEV_HOME/$QT4 ] ; then
    mkdir -p $OSSIM_DEV_HOME/qt4-install
    pushd $OSSIM_DEV_HOME/$QT4
-   ./configure -opensource -confirm-license -prefix $OSSIM_DEV_HOME/qt4-install
+   ./configure -opensource -confirm-license -prefix $OSSIM_DEV_HOME/qt4-install -no-webkit
    if [ $? -ne 0 ]; then
       echo "QT4 configuration error: $error"
       exit 1
