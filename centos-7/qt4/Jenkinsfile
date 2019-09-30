@@ -34,11 +34,6 @@ node ("${BUILD_NODE}"){
             url: "${GIT_PUBLIC_SERVER_URL}/ossim-sandbox.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
-         dir("ossim-sandbox"){
-            git branch: "${BRANCH_NAME}",
-            url: "${GIT_PUBLIC_SERVER_URL}/ossim-qt4.git",
-            credentialsId: "${CREDENTIALS_ID}"
-         }
       }
       stage("Load Build Image"){
          sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
