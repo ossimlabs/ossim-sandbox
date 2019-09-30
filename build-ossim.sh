@@ -24,6 +24,7 @@ if [ -f $OSSIM_DEV_HOME/qt4-${TYPE}.tgz ]; then
    tar xvf $OSSIM_DEV_HOME/qt4-${TYPE}.tgz
    popd
    export BUILD_OSSIM_QT4=ON
+   export QT_BINARY_DIR=$OSSIM_DEPENDENCIES/bin
 fi
 
 echo "OSSIM_DEPENDENCIES      = $OSSIM_DEPENDENCIES"
