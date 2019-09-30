@@ -64,13 +64,13 @@ if [ ! "${ENTRY_POINT}" == "" ] ;  then
 fi
 
 if $INTERACTIVE ; then
-  cmd='docker run -it $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" \
+  cmd=docker run -it $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" \
       --net=host --ipc host  --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data \
-      --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS'
+      --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS
 else
-  cmd='docker run $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" \
+  cmd=docker run $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" \
        --net=host --ipc host --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data \
-       --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS'
+       --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS
 fi
 echo $cmd
 $cmd
