@@ -64,12 +64,16 @@ if [ ! "${ENTRY_POINT}" == "" ] ;  then
 fi
 
 if $INTERACTIVE ; then
-  echo docker run -it $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host  --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS
-  docker run -it $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host  --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS
+  cmd='docker run -it $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" \
+      --net=host --ipc host  --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data \
+      --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS'
 else
-  echo docker run $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host   --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS
-  docker run $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" --net=host --ipc host --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS
+  cmd='docker run $ENV_FILE_ARG $ENTRY_POINT_ARG -u "$(id -u ${USER}):$(id -g ${USER})" \
+       --net=host --ipc host --rm -w $WORKING_DIR --mount type=bind,source=$DATA,target=/data \
+       --mount type=bind,source=$ROOT_DIR,target=$WORKING_DIR $ARGS_TO_PASS'
 fi
+echo $cmd
+$cmd
 
 if [ $? -ne 0 ]; then echo "ERROR: Failed execution of $ARGS_TO_PASS" ; exit 1 ; fi
 exit 0

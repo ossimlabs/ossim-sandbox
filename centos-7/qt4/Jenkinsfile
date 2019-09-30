@@ -5,6 +5,7 @@ properties([
         string(name: 'OSSIM_MAKE_JOBS', defaultValue: '8', description: 'Number of jobs for the make system'),
         string(name: 'GIT_PUBLIC_SERVER_URL', defaultValue: 'https://github.com/ossimlabs', description: ''),
         string(name: 'BRANCH_NAME', defaultValue: 'dev', description: ''),
+        booleanParam(name: 'BUILD_QT4_DEPENDENCY', defaultValue: true, description: 'Builds Qt4 library before the ossim-qt4 applications.'),
         booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'Clean the workspace at the end of the run'),
         booleanParam(name: 'MAKE_VERBOSE', defaultValue: true, description: '')
     ]),
@@ -34,13 +35,20 @@ node ("${BUILD_NODE}"){
             url: "${GIT_PUBLIC_SERVER_URL}/ossim-sandbox.git",
             credentialsId: "${CREDENTIALS_ID}"
          }
+         dir("ossim-sandbox"){
+            git branch: "${BRANCH_NAME}",
+            url: "${GIT_PUBLIC_SERVER_URL}/ossim-qt4.git",
+            credentialsId: "${CREDENTIALS_ID}"
+         }
       }
       stage("Load Build Image"){
          sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
       }
       stage("Build OSSIM Dependencies")
       {
-         sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-qt4-dependency.sh ${ARTIFACT_TYPE}"
+         if (BUILD_QT4_DEPENDENCY == "true")
+            sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-qt4-dependency.sh ${ARTIFACT_TYPE}"
+
       }
       stage("Archive")
       {
