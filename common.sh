@@ -80,7 +80,7 @@ if [ "$SZIP" == "" ] ; then
 fi
 
 if [ "$GEOS" == "" ] ; then
-  export GEOS="geos-3.8.0" 
+  export GEOS="geos-20191104" 
 fi
 
 if [ "$GEOTIFF" == "" ] ; then

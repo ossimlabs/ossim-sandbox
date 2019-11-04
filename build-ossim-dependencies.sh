@@ -26,6 +26,31 @@ echo "OS_ID            = $OS_ID"
 echo "OS_ID_VERSION    = $OS_ID_VERSION"
 
 #
+# Setup geos
+#
+if [ ! -d $OSSIM_DEV_HOME/$GEOS ] ; then
+  pushd $OSSIM_DEV_HOME
+  wget -q https://s3.amazonaws.com/ossimlabs/dependencies/source/$GEOS.tgz -O $GEOS.tgz
+  tar xvfz $GEOS.tgz
+  rm -f $GEOS.tgz
+  popd > /dev/null
+fi
+
+if [ -d $OSSIM_DEV_HOME/$GEOS ] ; then
+   cd $OSSIM_DEV_HOME/$GEOS
+   rm -rf build
+   mkdir -p build
+   cd build
+   cmake3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+   make -j $OSSIM_MAKE_JOBS VERBOSE=1 install
+   if [ $? -ne 0 ]; then echo "geos make install error: $error" ; exit 1 ; fi
+else
+   echo "Error: $OSSIM_DEV_HOME/$GEOS.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
+   exit 1  
+fi
+
+
+#
 # Setup szip
 #
 if [ ! -d $OSSIM_DEV_HOME/$SZIP ] ; then
