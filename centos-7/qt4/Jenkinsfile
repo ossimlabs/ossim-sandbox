@@ -38,9 +38,10 @@ node ("${BUILD_NODE}"){
       stage("Load Build Image"){
          sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
       }
-      stage("Build OSSIM Dependencies")
+      stage("Build ")
       {
          sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-qt4-dependency.sh ${ARTIFACT_TYPE}"
+
       }
       stage("Archive")
       {
