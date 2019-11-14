@@ -17,15 +17,16 @@ RUN yum -y install epel-release && yum clean all&& \
    libmodplug-devel libass-devel libbluray-devel libvpx-devel libvpx gnutls-devel gnutls openjpeg2-devel \
    fontconfig-devel xz-devel xz zlib-devel SDL2-devel mesa-libGL-devel mesa-libGLU-devel\
    java-1.8.0-openjdk-devel fribidi-devel speex-devel soxr-devel bzip2-devel bzip2 \
-   qt5-qtbase-devel minizip-devel chrpath unzip maven sudo \
+   qt5-qtbase-devel minizip-devel chrpath unzip maven sudo awscli\
    yum clean all && \
-   # useradd -u 1001 -r -g 0 --create-home -d $HOME -s /sbin/nologin -c 'Default Build User' ossim && \
    rm -rf /usr/local/* && \
    chmod -R 777 /usr/local 
 RUN curl -L https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip -o /usr/gradle-$GRADLE_VERSION-bin.zip; \
    curl -L https://archive.apache.org/dist/groovy/$GROOVY_VERSION/distribution/apache-groovy-binary-$GROOVY_VERSION.zip -o /usr/apache-groovy-binary-$GROOVY_VERSION.zip; \
+   curl -L https://github.com/grails/grails-core/releases/download/v$GRAILS_VERSION/grails-$GRAILS_VERSION.zip -o /usr/grails-$GRAILS_VERSION.zip ; \
    cd /usr;unzip gradle-$GRADLE_VERSION-bin.zip;unzip apache-groovy-binary-$GROOVY_VERSION.zip; \
-   ln -s gradle-$GRADLE_VERSION gradle; ln -s groovy-$GROOVY_VERSION groovy;rm -f /usr/*.zip
+   unzip grails-$GRAILS_VERSION-bin.zip; \
+   ln -s gradle-$GRADLE_VERSION gradle; ln -s grails-$GRAILS_VERSION grails; ln -s groovy-$GROOVY_VERSION groovy;rm -f /usr/*.zip
 
 
 # Download the Jenkins Slave JAR
