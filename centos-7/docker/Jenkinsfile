@@ -1,6 +1,7 @@
 properties([
     parameters ([
         string(name: 'BUILD_NODE', defaultValue: 'ossim-build', description: 'The build node to run on'),
+        string(name: 'REGISTRY_URL', defaultValue: 'quay.io/radiantsolutions', description: 'REGISTRY_URL to push to'),
          string(name: 'ARTIFACT_TYPE', defaultValue: 'centos-7', description: 'type of artifact to pull'),
        booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'Clean the workspace at the end of the run')
     ]),
@@ -45,7 +46,6 @@ node ("${BUILD_NODE}"){
                            passwordVariable: 'DOCKER_REGISTRY_PASSWORD']])
          {
             dir("${WORKSPACE}/ossim-sandbox"){
-               REGISTRY_URL=System.getProperty('dockerRegistryUrl')
                if(DOCKER_REGISTRY_USERNAME&&DOCKER_REGISTRY_PASSWORD)
                {
                   sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${dockerRegistryUrl}"
