@@ -12,6 +12,7 @@ properties([
     disableConcurrentBuilds()
 ])
 node ("${BUILD_NODE}"){
+   TAG_NAME="latest"
    try{
       stage( "Download Artifacts" ) {
          withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
@@ -33,9 +34,29 @@ node ("${BUILD_NODE}"){
       stage("Create Build Image"){
          sh "${env.WORKSPACE}/ossim-sandbox/create-build-image.sh ${ARTIFACT_TYPE}"
       }
+      stage("Create Deps Build Image"){
+      }
       stage("Archive")
       {
          archiveArtifacts "*.tgz"
+      }
+      stage ("Publish Build Images")
+      {
+         if ("$BRANCH_NAME" == "master") {
+            TAG_NAME="master"
+         } 
+        withCredentials([[$class: 'UsernamePasswordMultiBinding',
+                           credentialsId: 'dockerCredentials',
+                           usernameVariable: 'DOCKER_REGISTRY_USERNAME',
+                           passwordVariable: 'DOCKER_REGISTRY_PASSWORD']])
+         {
+            dir(WORKSPACE){
+               sh """
+               gradle pushDockerImage -PdockerImageTag=${TAG_NAME} -ProotProject.name="ossim-build-${${ARTIFACT_TYPE}}\
+                  -PossimMavenProxy=${OSSIM_MAVEN_PROXY}
+               """
+            }
+         }
       }
    }
    finally
