@@ -44,6 +44,10 @@ node ("${BUILD_NODE}"){
             projectName: "ossim-sandbox-docker-multibranch/${BRANCH_NAME}",
             filter: "ossim-base-build-${ARTIFACT_TYPE}.tgz",
             flatten: true])
+        step ([$class: "CopyArtifact",
+            projectName: "ossim-sandbox-ossimbuild-multibranch/${BRANCH_NAME}",
+            filter: "ossim-${ARTIFACT_TYPE}-all.tgz",
+            flatten: true])
          load "common-variables.groovy"
       }
       stage("Checkout"){
