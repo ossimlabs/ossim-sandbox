@@ -34,8 +34,6 @@ node ("${BUILD_NODE}"){
       stage("Create Build Image"){
          sh "${env.WORKSPACE}/ossim-sandbox/create-build-image.sh ${ARTIFACT_TYPE}"
       }
-      stage("Create Deps Build Image"){
-      }
       stage("Archive")
       {
          archiveArtifacts "*.tgz"
