@@ -1,5 +1,4 @@
 #!/bin/bash
-echo "HERE IN THE BUILD OSSIMN SCRIPT!!!!!!!!!!!!!!!!!!!!!!!"
 pushd `dirname ${BASH_SOURCE[0]}` >/dev/null
 BUILD_OSSIM_SCRIPT_DIR=`pwd -P`
 popd >/dev/null
