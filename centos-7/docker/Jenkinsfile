@@ -48,7 +48,7 @@ node ("${BUILD_NODE}"){
             dir("${WORKSPACE}/ossim-sandbox"){
                if(DOCKER_REGISTRY_USERNAME&&DOCKER_REGISTRY_PASSWORD)
                {
-                  sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${dockerRegistryUrl}"
+                  sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${REGISTRY_URL}"
                }
                sh """
                docker tag  ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} ${REGISTRY_URL}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME}
