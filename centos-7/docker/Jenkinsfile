@@ -17,7 +17,7 @@ node ("${BUILD_NODE}"){
    if ("$BRANCH_NAME" == "master") {
       TAG_NAME="master"
    } 
-   OssimBuildDockerfile="""
+   ossimBuildDockerfile="""
    FROM ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
    ADD ossim-deps-${ARTIFACT_TYPE}-all.tgz /usr/local/
    """
@@ -48,7 +48,7 @@ node ("${BUILD_NODE}"){
 
       }
       stage("Create Build Image"){
-         writeFile File: "${WORKSPACE}/Dockerfile" text: OssimBuildDockerfile
+         writeFile File: "${WORKSPACE}/Dockerfile" text: ossimBuildDockerfile
          
       }
       stage ("Publish OSSIM Build Image")
