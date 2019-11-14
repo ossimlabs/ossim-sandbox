@@ -12,6 +12,7 @@ properties([
     buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '20')),
     disableConcurrentBuilds()
 ])
+timeout(time: 60, unit: 'MINUTES') {
 node ("${BUILD_NODE}"){
    try{
       stage( "Download Artifacts" ) {
@@ -60,4 +61,5 @@ node ("${BUILD_NODE}"){
             step([$class: 'WsCleanup'])
       }
    }
+}
 }
