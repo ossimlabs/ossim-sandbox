@@ -14,6 +14,13 @@ properties([
 ])
 node ("${BUILD_NODE}"){
    TAG_NAME="latest"
+   if ("$BRANCH_NAME" == "master") {
+      TAG_NAME="master"
+   } 
+   OssimBuildDockerfile="""
+   FROM ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
+   ADD ossim-deps-${ARTIFACT_TYPE}-all.tgz /usr/local/
+   """
    try{
       stage( "Download Artifacts" ) {
          withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
@@ -26,6 +33,10 @@ node ("${BUILD_NODE}"){
             projectName: "ossim-sandbox-deps-multibranch/${BRANCH_NAME}",
             filter: "ossim-deps-${ARTIFACT_TYPE}-all.tgz",
             flatten: true])
+         step ([$class: "CopyArtifact",
+            projectName: "ossim-sandbox-docker-multibranch/${BRANCH_NAME}",
+            filter: "ossim-base-build-${ARTIFACT_TYPE}.tgz",
+            flatten: true])
          load "common-variables.groovy"
       }
       stage("Checkout"){
@@ -37,9 +48,10 @@ node ("${BUILD_NODE}"){
 
       }
       stage("Create Build Image"){
-         sh "${env.WORKSPACE}/ossim-sandbox/create-ossim-build-image.sh ${ARTIFACT_TYPE}"
+         writeFile File: "${WORKSPACE}/Dockerfile" text: OssimBuildDockerfile
+         
       }
-      stage ("Publish Base Build Image")
+      stage ("Publish OSSIM Build Image")
       {
          if ("$BRANCH_NAME" == "master") {
             TAG_NAME="master"
@@ -49,13 +61,14 @@ node ("${BUILD_NODE}"){
                            usernameVariable: 'DOCKER_REGISTRY_USERNAME',
                            passwordVariable: 'DOCKER_REGISTRY_PASSWORD']])
          {
-            dir("${WORKSPACE}/ossim-sandbox"){
+            dir("${WORKSPACE}"){
                if(DOCKER_REGISTRY_USERNAME&&DOCKER_REGISTRY_PASSWORD)
                {
                   sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${REGISTRY_URL}"
                }
                sh """
-               docker tag  ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} ${REGISTRY_URL}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME}
+               docker load -i ossim-base-build-${ARTIFACT_TYPE}.tgz
+               docker build -t ${REGISTRY_URL}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} .
                docker push ${REGISTRY_URL}/ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
                """
             }
