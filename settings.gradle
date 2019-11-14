@@ -1,9 +1,0 @@
-pluginManagement {
-  repositories {
-    maven { url System.getenv('REPOSITORY_MANAGER_URL') }
-    gradlePluginPortal()
-  }
-}
-
-//rootProject.name = System.getProperty("rootProjectName")
-rootProject.name = "ossim-build"
