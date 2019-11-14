@@ -46,7 +46,7 @@ node ("${BUILD_NODE}"){
          {
             dir("${WORKSPACE}/ossim-sandbox"){
                sh """
-               gradle pushDockerImage -PdockerImageTag=${TAG_NAME} -ProotProjectName=ossim-build-${ARTIFACT_TYPE}\
+               gradle --debug  pushDockerImage -PdockerImageTag=${TAG_NAME} -ProotProjectName=ossim-build-${ARTIFACT_TYPE}\
                   -PossimMavenProxy=${OSSIM_MAVEN_PROXY}
                """
             }
