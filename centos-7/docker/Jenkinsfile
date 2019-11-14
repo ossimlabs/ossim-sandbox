@@ -21,6 +21,10 @@ node ("${BUILD_NODE}"){
    FROM ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
    ADD ossim-deps-${ARTIFACT_TYPE}-all.tgz /usr/local/
    """
+   ossimDevelDockerfile="""
+   FROM ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
+   ADD ossim-deps-${ARTIFACT_TYPE}-all.tgz /usr/local/
+   """
    try{
       stage( "Download Artifacts" ) {
          withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
@@ -68,8 +72,7 @@ node ("${BUILD_NODE}"){
                }
                sh """
                docker load -i ossim-base-build-${ARTIFACT_TYPE}.tgz
-               docker build -t ${REGISTRY_URL}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} .
-               docker push ${REGISTRY_URL}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME}
+               docker build -t ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} .
                """
             }
          }
