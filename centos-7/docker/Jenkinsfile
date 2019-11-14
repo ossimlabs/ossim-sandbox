@@ -80,8 +80,8 @@ node ("${BUILD_NODE}"){
                // }
                sh """
                docker load -i ossim-base-build-${ARTIFACT_TYPE}.tgz
-               docker build -t ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} -f ${ossimBuildDockerfile}
-               docker build -t ossim-devel-${ARTIFACT_TYPE}:${TAG_NAME} -f ${ossimDevelDockerfile}
+               docker build -t ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} -f ${ossimBuildDockerfile} ${WORKSPACE}
+               docker build -t ossim-devel-${ARTIFACT_TYPE}:${TAG_NAME} -f ${ossimDevelDockerfile} ${WORKSPACE}
                ossim-sandbox/save-image.sh ossim-build-${ARTIFACT_TYPE} ${TAG_NAME} ossim-build-${ARTIFACT_TYPE}-${TAG_NAME}.tgz
                ossim-sandbox/save-image.sh ossim-devel-${ARTIFACT_TYPE} ${TAG_NAME} ossim-devel-${ARTIFACT_TYPE}-${TAG_NAME}.tgz
                """
