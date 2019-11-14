@@ -30,7 +30,7 @@ node ("${BUILD_NODE}"){
          }
          step ([$class: "CopyArtifact",
             projectName: "ossim-sandbox-docker-multibranch/${BRANCH_NAME}",
-            filter: "ossim-build-${ARTIFACT_TYPE}.tgz",
+            filter: "ossim-base-build-${ARTIFACT_TYPE}.tgz",
             flatten: true])
          step ([$class: "CopyArtifact",
             projectName: "ossim-sandbox-deps-multibranch/${BRANCH_NAME}",
@@ -106,7 +106,7 @@ node ("${BUILD_NODE}"){
          }
       }
       stage("Load Build Image"){
-         sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
+         sh "docker load -i ${env.WORKSPACE}/ossim-base-build-${ARTIFACT_TYPE}.tgz"
       }
       stage("Build OSSIM"){
          DOCKER_LABEL = "latest"
@@ -127,7 +127,7 @@ node ("${BUILD_NODE}"){
 
                sh """ossim-sandbox/docker-run.sh \
                   --env-file ${env.WORKSPACE}/env.txt \
-                  ossim-build-${ARTIFACT_TYPE}:${DOCKER_LABEL} \
+                  ossim-base-build-${ARTIFACT_TYPE}:${DOCKER_LABEL} \
                   ossim-sandbox/build-ossim.sh ${ARTIFACT_TYPE}
                """
                }

@@ -51,8 +51,8 @@ node ("${BUILD_NODE}"){
                   sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${REGISTRY_URL}"
                }
                sh """
-               docker tag  ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} ${REGISTRY_URL}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME}
-               docker push ${REGISTRY_URL}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME}
+               docker tag  ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME} ${REGISTRY_URL}/ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
+               docker push ${REGISTRY_URL}/ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
                """
             }
          }

@@ -24,7 +24,7 @@ node ("${BUILD_NODE}"){
          }
          step ([$class: "CopyArtifact",
             projectName: "ossim-sandbox-docker-multibranch/${BRANCH_NAME}",
-            filter: "ossim-build-${ARTIFACT_TYPE}.tgz",
+            filter: "ossim-base-build-${ARTIFACT_TYPE}.tgz",
             flatten: true])
          load "common-variables.groovy"
       }
@@ -42,11 +42,11 @@ node ("${BUILD_NODE}"){
 
       }
       stage("Load Build Image"){
-         sh "docker load -i ${env.WORKSPACE}/ossim-build-${ARTIFACT_TYPE}.tgz"
+         sh "docker load -i ${env.WORKSPACE}/ossim-base-build-${ARTIFACT_TYPE}.tgz"
       }
       stage("Build OSSIM Dependencies")
       {
-         sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim-dependencies.sh ${ARTIFACT_TYPE}"
+         sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-base-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim-dependencies.sh ${ARTIFACT_TYPE}"
       }
       stage("Archive")
       {
