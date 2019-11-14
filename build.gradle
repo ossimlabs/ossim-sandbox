@@ -1,0 +1,15 @@
+buildscript {
+  repositories {
+    mavenLocal()
+    maven { url ossimMavenProxy }
+  }
+
+  dependencies {
+        classpath 'com.bmuschko:gradle-docker-plugin:3.0.12'
+        classpath 'io.ossim:gradleDefaults:1.8-SNAPSHOT'
+  }
+}
+
+io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
+dockerBuildDir="${rootProject.projectDir}"
+io.ossim.gradleDefaults.Docker.addDockerTasks(project, dockerRegistryUrl, dockerRegistryUsername, dockerRegistryPassword, name, dockerImageTag, dockerBuildDir, null, ["BASE_IMAGE": "${dockerRegistryUrl}/${dockerBaseImage}:${dockerFromTag}"])
