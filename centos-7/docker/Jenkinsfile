@@ -45,12 +45,13 @@ node ("${BUILD_NODE}"){
                            passwordVariable: 'DOCKER_REGISTRY_PASSWORD']])
          {
             dir("${WORKSPACE}/ossim-sandbox"){
+               REGISTRY_URL=System.getProperty('dockerRegistryUrl')
                if(DOCKER_REGISTRY_USERNAME&&DOCKER_REGISTRY_PASSWORD)
                {
                   sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${dockerRegistryUrl}"
                }
                sh """
-               docker tag  ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} ${dockerRegistryUrl}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME}
+               docker tag  ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} ${REGISTRY_URL}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME}
                docker push ${dockerRegistryUrl}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME}
                """
             }
