@@ -17,13 +17,16 @@ node ("${BUILD_NODE}"){
    if ("$BRANCH_NAME" == "master") {
       TAG_NAME="master"
    } 
-   ossimBuildDockerfile="""
+   ossimBuildDockerfile="${WORKSPACE}/ossimBuildDockerfile"
+   ossimBuildDockerfileText="""
    FROM ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
    ADD ossim-deps-${ARTIFACT_TYPE}-all.tgz /usr/local/
    """
-   ossimDevelDockerfile="""
+   ossimDevelDockerfile="${WORKSPACE}/ossimDevelDockerfile"
+   ossimDevelDockerfileText="""
    FROM ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
    ADD ossim-deps-${ARTIFACT_TYPE}-all.tgz /usr/local/
+   ADD ossim-${ARTIFACT_TYPE}-all.tgz /usr/local/
    """
    try{
       stage( "Download Artifacts" ) {
@@ -52,7 +55,8 @@ node ("${BUILD_NODE}"){
 
       }
       stage("Create Build Image"){
-         writeFile file: "${WORKSPACE}/Dockerfile", text: ossimBuildDockerfile
+         writeFile file: ossimBuildDockerfile, text: ossimBuildDockerfileText
+         writeFile file: ossimDevelDockerfile, text: ossimDevelDockerfileText
          
       }
       stage ("Publish OSSIM Build Image")
@@ -60,21 +64,24 @@ node ("${BUILD_NODE}"){
          if ("$BRANCH_NAME" == "master") {
             TAG_NAME="master"
          } 
-        withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                           credentialsId: 'dockerCredentials',
-                           usernameVariable: 'DOCKER_REGISTRY_USERNAME',
-                           passwordVariable: 'DOCKER_REGISTRY_PASSWORD']])
-         {
+      //   withCredentials([[$class: 'UsernamePasswordMultiBinding',
+      //                      credentialsId: 'dockerCredentials',
+      //                      usernameVariable: 'DOCKER_REGISTRY_USERNAME',
+      //                      passwordVariable: 'DOCKER_REGISTRY_PASSWORD']])
+      //    {
             dir("${WORKSPACE}"){
-               if(DOCKER_REGISTRY_USERNAME&&DOCKER_REGISTRY_PASSWORD)
-               {
-                  sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${REGISTRY_URL}"
-               }
+               // if(DOCKER_REGISTRY_USERNAME&&DOCKER_REGISTRY_PASSWORD)
+               // {
+               //    sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${REGISTRY_URL}"
+               // }
                sh """
                docker load -i ossim-base-build-${ARTIFACT_TYPE}.tgz
-               docker build -t ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} .
+               docker build -t ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} -f ${ossimBuildDockerfile}
+               docker build -t ossim-devel-${ARTIFACT_TYPE}:${TAG_NAME} -f ${ossimDevelDockerfile}
+               ossim-sandbox/save-image.sh ossim-build-${ARTIFACT_TYPE} ${TAG_NAME} ossim-build-${ARTIFACT_TYPE}-${TAG_NAME}.tgz
+               ossim-sandbox/save-image.sh ossim-devel-${ARTIFACT_TYPE} ${TAG_NAME} ossim-devel-${ARTIFACT_TYPE}-${TAG_NAME}.tgz
                """
-            }
+            // }
          }
       }
       stage("Archive")
