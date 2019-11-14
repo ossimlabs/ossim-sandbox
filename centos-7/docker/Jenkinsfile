@@ -34,10 +34,6 @@ node ("${BUILD_NODE}"){
       stage("Create Build Image"){
          sh "${env.WORKSPACE}/ossim-sandbox/create-build-image.sh ${ARTIFACT_TYPE}"
       }
-      stage("Archive")
-      {
-         archiveArtifacts "*.tgz"
-      }
       stage ("Publish Base Build Image")
       {
          if ("$BRANCH_NAME" == "master") {
@@ -55,6 +51,10 @@ node ("${BUILD_NODE}"){
                """
             }
          }
+      }
+      stage("Archive")
+      {
+         archiveArtifacts "*.tgz"
       }
    }
    finally
