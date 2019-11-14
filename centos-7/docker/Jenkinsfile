@@ -38,7 +38,7 @@ node ("${BUILD_NODE}"){
       {
          archiveArtifacts "*.tgz"
       }
-      stage ("Publish Build Images")
+      stage ("Publish Base Build Image")
       {
          if ("$BRANCH_NAME" == "master") {
             TAG_NAME="master"
