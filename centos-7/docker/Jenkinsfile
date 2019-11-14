@@ -69,7 +69,7 @@ node ("${BUILD_NODE}"){
                sh """
                docker load -i ossim-base-build-${ARTIFACT_TYPE}.tgz
                docker build -t ${REGISTRY_URL}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME} .
-               docker push ${REGISTRY_URL}/ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
+               docker push ${REGISTRY_URL}/ossim-build-${ARTIFACT_TYPE}:${TAG_NAME}
                """
             }
          }
