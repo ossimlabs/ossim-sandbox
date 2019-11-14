@@ -5,4 +5,5 @@ pluginManagement {
   }
 }
 
-rootProject.name = System.getProperty("rootProjectName")
+//rootProject.name = System.getProperty("rootProjectName")
+rootProject.name = "ossim-build"
