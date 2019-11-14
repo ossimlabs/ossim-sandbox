@@ -90,7 +90,9 @@ node ("${BUILD_NODE}"){
       }
       stage("Archive")
       {
-         archiveArtifacts "*.tgz"
+         archiveArtifacts "ossim-build-${ARTIFACT_TYPE}-${TAG_NAME}.tgz"
+         archiveArtifacts "ossim-devel-${ARTIFACT_TYPE}-${TAG_NAME}.tgz"
+         
       }
    }
    finally
