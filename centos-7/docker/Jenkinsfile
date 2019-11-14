@@ -48,7 +48,7 @@ node ("${BUILD_NODE}"){
 
       }
       stage("Create Build Image"){
-         writeFile File: "${WORKSPACE}/Dockerfile" text: ossimBuildDockerfile
+         writeFile File: "${WORKSPACE}/Dockerfile", text: ossimBuildDockerfile
          
       }
       stage ("Publish OSSIM Build Image")
