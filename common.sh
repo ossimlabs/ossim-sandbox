@@ -18,7 +18,7 @@ echo "BRANCH_NAME = ${BRANCH_NAME}"
 if [ "$BRANCH_NAME" == "dev" ] ; then
    export DOCKER_LABEL="latest"
 elif [ "$BRANCH_NAME" == "master" ] ; then 
-   export DOCKER_LABEL="release"
+   export DOCKER_LABEL="master"
 else
    export DOCKER_LABEL=$BRANCH_NAME
 fi
