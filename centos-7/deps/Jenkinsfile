@@ -14,6 +14,9 @@ properties([
 ])
 timeout(time: 60, unit: 'MINUTES') {
 node ("${BUILD_NODE}"){
+   DOCKER_TAG="latest"
+   if(BRANCH_NAME == "master") DOCKER_TAG="release"
+   else if(BRANCH_NAME != "dev" ) DOCKER_TAG=BRANCH_NAME
    try{
       stage( "Download Artifacts" ) {
          withCredentials([string(credentialsId: 'o2-artifact-project', variable: 'o2ArtifactProject')]) {
@@ -46,7 +49,7 @@ node ("${BUILD_NODE}"){
       }
       stage("Build OSSIM Dependencies")
       {
-         sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-base-build-${ARTIFACT_TYPE} ossim-sandbox/build-ossim-dependencies.sh ${ARTIFACT_TYPE}"
+         sh "${env.WORKSPACE}/ossim-sandbox/docker-run.sh ossim-base-build-${ARTIFACT_TYPE}:${DOCKER_TAG} ossim-sandbox/build-ossim-dependencies.sh ${ARTIFACT_TYPE}"
       }
       stage("Archive")
       {
