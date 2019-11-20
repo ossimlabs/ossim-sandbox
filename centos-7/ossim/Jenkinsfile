@@ -110,7 +110,7 @@ node ("${BUILD_NODE}"){
       }
       stage("Build OSSIM"){
          DOCKER_LABEL = "latest"
-         if(BRANCH_NAME == "master") DOCKER_LABEL="release"
+         if(BRANCH_NAME == "master") DOCKER_LABEL="master"
          else if(BRANCH_NAME != "dev" ) DOCKER_LABEL=BRANCH_NAME
 
          dockerEnv += "DEPLOY_JOMS=$DEPLOY_JOMS\n"
