@@ -357,7 +357,7 @@ if [ ! -d $OSSIM_DEV_HOME/$GDAL ] ; then
   pushd $OSSIM_DEV_HOME
   wget -q https://s3.amazonaws.com/ossimlabs/dependencies/source/$GDAL.tgz -O $GDAL.tgz
   tar xvfz $GDAL.tgz
-  rm -f $GDAL.tgz
+  rm -f $GDAL.tgz  
   popd > /dev/null
 fi
 
@@ -365,7 +365,7 @@ if [ -d $OSSIM_DEV_HOME/$GDAL ] ; then
    cd $OSSIM_DEV_HOME/$GDAL
    ./configure --with-kakadu=$OSSIM_DEV_HOME/ossim-private/kakadu/$KAKADU_VERSION --with-proj=/usr/local --with-jpeg=internal --prefix=/usr/local --enable-shared --disable-static 
    make -j $OSSIM_MAKE_JOBS install
-   if [ $? -ne 0 ]; then echo "gdal make install error: $error" ; exit 1 ; fi
+   if [ $? -ne 0 ]; then echo "gdal make install error: $error" ; exit 1 ; fi   
 else
    echo "Error: $OSSIM_DEV_HOME/$AWS_SDK.tgz Not found.  Please edit the common.sh to specify the proper version then place the version under https://s3.amazonaws.com/ossimlabs/dependencies/source/"
    exit 1  
@@ -469,6 +469,10 @@ fi
 
 echo "Packaging dependencies........"
 cd /usr/local
+echo "Stripping exes and libs"
+strip `ls bin/*`
+strip `ls lib/*`
+strip `ls lib64/*`
 tar cvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-all.tgz *
 tar cvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-runtime.tgz bin lib lib64 share kakadu/lib kakadu/bin
 tar cvfz $OSSIM_DEV_HOME/ossim-deps-$TYPE-dev.tgz include lib lib64 kakadu/lib kakadu/managed kakadu/apps
