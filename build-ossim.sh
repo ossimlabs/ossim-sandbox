@@ -180,4 +180,57 @@ pushd $OSSIM_DEV_HOME/ossim-oms/joms
    fi
 popd
 
+echo "************************** Creating Runtime Slim Docker ***************************"
+export SLIM_NAME=ossim-docker-$TYPE-runtime
+export SLIM_DIR=$OSSIM_DEV_HOME/$SLIM_NAME
+mkdir -p $SLIM_DIR
+mkdir -p $SLIM_DIR/bin
+mkdir -p $SLIM_DIR/lib64
+mkdir -p $SLIM_DIR/lib
+
+
+# $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $TEMP_EXTRACT_DIR/lib64 $SANDBOX_DIR
+cp -R $OSSIM_INSTALL_PREFIX/lib64/* $SLIM_DIR/lib64;
+# cp -R $OSSIM_DEPENDENCIES/lib/* $SANDBOX_DIR/lib64/;
+# cp -R $OSSIM_DEPENDENCIES/lib64/* $SANDBOX_DIR/lib64/;
+cp -R $OSSIM_INSTALL_PREFIX/share $SLIM_DIR/;
+cp -R $OSSIM_DEPENDENCIES/share $SLIM_DIR/;
+cp $OSSIM_DEPENDENCIES/bin/gdal* $SLIM_DIR/bin/;
+cp $OSSIM_DEPENDENCIES/bin/ff* $SLIM_DIR/bin/;
+cp $OSSIM_DEPENDENCIES/bin/listgeo $SLIM_DIR/bin/;
+cp -R $OSSIM_INSTALL_PREFIX/bin $SLIM_DIR/;
+rm -rf $SLIM_DIR/bin/ossim-*test
+rm -f $SLIM_DIR/lib64/*.a
+
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/libossim.so $SLIM_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/liboms.so $SLIM_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/libossim-wms.so $SLIM_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/libossim-video.so $SLIM_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/ossim/plugins $SLIM_DIR/lib64
+$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/bin $SLIM_DIR/lib64
+#$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/bin $SLIM_DIR/lib64
+#$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/lib $SLIM_DIR/lib64
+#$OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_DEPENDENCIES/lib64 $SLIM_DIR/lib64
+
+if [ -f $OSSIM_INSTALL_PREFIX/lib64/libossimQt.so ]; then
+   $OSSIM_DEV_HOME/ossim/scripts/ocpld.sh $OSSIM_INSTALL_PREFIX/lib64/libossimQt.so $SLIM_DIR/lib64
+fi
+
+chmod +x $SLIM_DIR/bin/*
+chmod +x $SLIM_DIR/lib64/*
+
+pushd $SLIM_DIR
+tar cvfz $ROOT_DIR/$SLIM_NAME.tgz *
+popd
+
+pushd $OSSIM_DEV_HOME/ossim-oms/joms
+
+   if "$DEPLOY_JOMS" ; then
+      gradle uploadArchives
+      if [ $? -ne 0 ]; then
+      echo; echo "ERROR: Build failed for JOMS Deploy to Nexus."
+      exit 1
+      fi
+   fi
+popd
 exit 0
