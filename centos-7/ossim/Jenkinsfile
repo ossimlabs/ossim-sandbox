@@ -137,6 +137,7 @@ node ("${BUILD_NODE}"){
       {
          archiveArtifacts "ossim-${ARTIFACT_TYPE}-*.tgz"
          archiveArtifacts "ossim-sandbox-${ARTIFACT_TYPE}-*.tgz"
+         archiveArtifacts "ossim-docker-slim-${ARTIFACT_TYPE}-*.tgz"
       }
    }
    finally

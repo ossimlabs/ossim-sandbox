@@ -181,7 +181,7 @@ pushd $OSSIM_DEV_HOME/ossim-oms/joms
 popd
 
 echo "************************** Creating Runtime Slim Docker ***************************"
-export SLIM_NAME=ossim-docker-$TYPE-runtime
+export SLIM_NAME=ossim-docker-slim-$TYPE-runtime
 export SLIM_DIR=$OSSIM_DEV_HOME/$SLIM_NAME
 mkdir -p $SLIM_DIR
 mkdir -p $SLIM_DIR/bin
