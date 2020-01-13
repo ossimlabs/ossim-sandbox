@@ -3,6 +3,7 @@ properties([
         string(name: 'BUILD_NODE', defaultValue: 'ossim-build', description: 'The build node to run on'),
         string(name: 'ARTIFACT_TYPE', defaultValue: 'centos-7', description: 'type of artifact to pull'),
         string(name: 'OSSIM_MAKE_JOBS', defaultValue: '8', description: 'Number of jobs for the make system'),
+        string(name: 'MAVEN_REPO_URL', defaultValue: 'https://nexus.ossim.io/repository/all-repos' description: 'maven url'),
         booleanParam(name: 'DEPLOY_JOMS', defaultValue: true, description: 'Specify whether or not to deploy JOMS'),
         booleanParam(name: 'BUILD_OSSIM_QT4', defaultValue: false, description: 'Specify whether or not to build the OSSIM Qt4 GUI apps'),
         booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'Clean the workspace at the end of the run'),
