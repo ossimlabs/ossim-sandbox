@@ -15,7 +15,7 @@ properties([
 timeout(time: 60, unit: 'MINUTES') {
 node ("${BUILD_NODE}"){
    DOCKER_TAG="latest"
-   if(BRANCH_NAME == "master") DOCKER_TAG="release"
+   if(BRANCH_NAME == "master") DOCKER_TAG="master"
    else if(BRANCH_NAME != "dev" ) DOCKER_TAG=BRANCH_NAME
    try{
       stage( "Download Artifacts" ) {
