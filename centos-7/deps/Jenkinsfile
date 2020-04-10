@@ -14,6 +14,7 @@ properties([
 ])
 timeout(time: 60, unit: 'MINUTES') {
 node ("${BUILD_NODE}"){
+   env.WORKSPACE = pwd()
    DOCKER_TAG="latest"
    if(BRANCH_NAME == "master") DOCKER_TAG="master"
    else if(BRANCH_NAME != "dev" ) DOCKER_TAG=BRANCH_NAME

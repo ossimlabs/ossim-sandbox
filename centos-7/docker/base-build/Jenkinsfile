@@ -13,6 +13,7 @@ properties([
     disableConcurrentBuilds()
 ])
 node ("${BUILD_NODE}"){
+   env.WORKSPACE = pwd()
    TAG_NAME="latest"
    try{
       stage( "Download Artifacts" ) {
