@@ -18,7 +18,7 @@ RUN yum -y install epel-release && yum clean all&& \
    libmodplug-devel libass-devel libbluray-devel libvpx-devel libvpx gnutls-devel gnutls openjpeg2-devel \
    fontconfig-devel xz-devel xz zlib-devel SDL2-devel mesa-libGL-devel mesa-libGLU-devel\
    java-1.8.0-openjdk-devel fribidi-devel speex-devel soxr-devel bzip2-devel bzip2 \
-   qt5-qtbase-devel minizip-devel chrpath unzip maven sudo awscli\
+   qt5-qtbase-devel qt4-devel minizip-devel chrpath unzip maven sudo awscli\
    yum clean all && \
    rm -rf /usr/local/* && \
    chmod -R 777 /usr/local 
