@@ -1,8 +1,7 @@
 properties([
     parameters ([
         string(name: 'BUILD_NODE', defaultValue: 'ossim-build', description: 'The build node to run on'),
-        string(name: 'REGISTRY_URL', defaultValue: 'quay.io/radiantsolutions', description: 'REGISTRY_URL to push to'),
-         string(name: 'ARTIFACT_TYPE', defaultValue: 'centos-7', description: 'type of artifact to pull'),
+        string(name: 'ARTIFACT_TYPE', defaultValue: 'centos-7', description: 'type of artifact to pull'),
        booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'Clean the workspace at the end of the run')
     ]),
     pipelineTriggers([
@@ -25,6 +24,7 @@ node ("${BUILD_NODE}"){
          }
          load "common-variables.groovy"
       }
+       
       stage("Checkout"){
          dir("ossim-sandbox"){
             git branch: "${BRANCH_NAME}",
@@ -33,9 +33,11 @@ node ("${BUILD_NODE}"){
          }
 
       }
+       
       stage("Create Build Image"){
          sh "${env.WORKSPACE}/ossim-sandbox/create-build-image.sh ${ARTIFACT_TYPE}"
       }
+       
       stage ("Publish Base Build Image")
       {
          if ("$BRANCH_NAME" == "master") {
@@ -47,17 +49,18 @@ node ("${BUILD_NODE}"){
                            passwordVariable: 'DOCKER_REGISTRY_PASSWORD']])
          {
             dir("${WORKSPACE}/ossim-sandbox"){
-               if(DOCKER_REGISTRY_USERNAME&&DOCKER_REGISTRY_PASSWORD)
+               if(DOCKER_REGISTRY_USERNAME && DOCKER_REGISTRY_PASSWORD)
                {
-                  sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${REGISTRY_URL}"
+                  sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"
                }
                sh """
-               docker tag  ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME} ${REGISTRY_URL}/ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
+               docker tag  ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME} ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
                docker push ${REGISTRY_URL}/ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
                """
             }
          }
       }
+       
       stage("Archive")
       {
          archiveArtifacts "*.tgz"
