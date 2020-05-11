@@ -11,7 +11,7 @@ ENV HOME=/home/jenkins \
 
 RUN yum -y install epel-release && yum clean all&& \
    yum -y install git wget curl gcc tcsh gcc-c++ libtool ant \
-   openssl-devel libjpeg-devel curl-devel nasm mpich-3.2-devel \
+   openssl-devel OpenThreads-devel libjpeg-devel curl-devel nasm mpich-3.2-devel \
    libtiff-devel sqlite-devel libpng-devel swig libjpeg-turbo-devel podofo-devel\
    giflib-devel cmake numactl-devel cmake3 make jsoncpp-devel freetype-devel \
    lame-devel libvorbis-devel opus opus-devel libogg-devel librsvg2-devel libtheora-devel \
