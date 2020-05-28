@@ -11,7 +11,24 @@ properties([
     buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '20')),
     disableConcurrentBuilds()
 ])
-node ("${BUILD_NODE}"){
+podTemplate(
+  containers: [
+    containerTemplate(
+      name: 'docker',
+      image: 'docker:latest',
+      ttyEnabled: true,
+      command: 'cat',
+      privileged: true
+    ),
+  ],
+  volumes: [
+    hostPathVolume(
+      hostPath: '/var/run/docker.sock',
+      mountPath: '/var/run/docker.sock'
+    ),
+  ]
+)
+node (POD_LABEL){
    env.WORKSPACE = pwd()
    TAG_NAME="latest"
    try{
@@ -40,23 +57,25 @@ node ("${BUILD_NODE}"){
        
       stage ("Publish Base Build Image")
       {
-         if ("$BRANCH_NAME" == "master") {
-            TAG_NAME="master"
-         } 
-        withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                           credentialsId: 'dockerCredentials',
-                           usernameVariable: 'DOCKER_REGISTRY_USERNAME',
-                           passwordVariable: 'DOCKER_REGISTRY_PASSWORD']])
-         {
-            dir("${WORKSPACE}/ossim-sandbox"){
-               if(DOCKER_REGISTRY_USERNAME && DOCKER_REGISTRY_PASSWORD)
-               {
-                  sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"
+         container('docker'){
+            if ("$BRANCH_NAME" == "master") {
+               TAG_NAME="master"
+            } 
+            withCredentials([[$class: 'UsernamePasswordMultiBinding',
+                              credentialsId: 'dockerCredentials',
+                              usernameVariable: 'DOCKER_REGISTRY_USERNAME',
+                              passwordVariable: 'DOCKER_REGISTRY_PASSWORD']])
+            {
+               dir("${WORKSPACE}/ossim-sandbox"){
+                  if(DOCKER_REGISTRY_USERNAME && DOCKER_REGISTRY_PASSWORD)
+                  {
+                     sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}"
+                  }
+                  sh """
+                  docker tag  ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME} ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
+                  docker push ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
+                  """
                }
-               sh """
-               docker tag  ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME} ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
-               docker push ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-base-build-${ARTIFACT_TYPE}:${TAG_NAME}
-               """
             }
          }
       }
